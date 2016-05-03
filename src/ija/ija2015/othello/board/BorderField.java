@@ -15,19 +15,24 @@ public class BorderField implements Field {
     {
     }
 
-    //Nedělá nic.
+    /**
+     * Nedělá nic.
+     * @param dirs
+     * @param field
+     */
     @Override
-    public void	addNextField(Field.Direction dirs, Field field)
-    {
-    }
+    public void	addNextField(Field.Direction dirs, Field field) {}
     
     @Override
     public boolean canPutDisk(Disk disk)
     {
         return false;
     }
-    
-    //Vrací kámen, který je vložen na pole.
+
+    /**
+     * Vrací kámen, který je vložen na pole.
+     * @return
+     */
     @Override
     public Disk	getDisk()
     {
@@ -39,14 +44,23 @@ public class BorderField implements Field {
     {
         return true;
     }
-    //Vrátí sousední pole v daném směru dirs.
+
+    /**
+     * Vrátí sousední pole v daném směru dirs
+     * @param dirs
+     * @return
+     */
     @Override
     public Field nextField(Field.Direction dirs)
     {
         return null;
     }
-    
-    //Vloží na pole kámen.
+
+    /**
+     * Vloží na pole kámen.
+     * @param disk
+     * @return
+     */
     @Override
     public boolean putDisk(Disk disk)
     {
@@ -58,5 +72,4 @@ public class BorderField implements Field {
     {
         return "";
     }
-
 }

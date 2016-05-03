@@ -12,8 +12,8 @@ import java.util.Arrays;
  *
  * @author XKADER13, XZEMAN53
  */
-public abstract class AbstractField implements Field {
- 
+public abstract class AbstractField implements Field
+{
     protected int Row;
     protected int Col;
     protected Disk Disk;
@@ -26,8 +26,12 @@ public abstract class AbstractField implements Field {
         Disk = null;
         surrFields = new Field[8];
     }
-    
-    //Přidá sousední pole field v daném směru dirs.
+
+    /**
+     * Přidá sousední pole field v daném směru dirs.
+     * @param dirs
+     * @param field
+     */
     @Override
     public void	addNextField(Field.Direction dirs, Field field)
     {
@@ -39,8 +43,11 @@ public abstract class AbstractField implements Field {
     {
         return isEmpty();
     }
-    
-    //Vrací kámen, který je vložen na pole.
+
+    /**
+     * Vrací kámen, který je vložen na pole.
+     * @return
+     */
     @Override
     public Disk	getDisk()
     {
@@ -52,16 +59,24 @@ public abstract class AbstractField implements Field {
     {
         return Disk == null;
     }
-    
-    //Vrátí sousední pole v daném směru dirs.
+
+    /**
+     * Vrátí sousední pole v daném směru dirs.
+     * @param dirs
+     * @return
+     */
     @Override
     public Field nextField(Field.Direction dirs)
     {
         return this.surrFields[dirs.ordinal()];
     }
-    
-    
-    //Vloží na pole kámen.
+
+
+    /**
+     * Vloží na pole kámen.
+     * @param disk
+     * @return
+     */
     @Override
     public boolean putDisk(Disk disk)
     {

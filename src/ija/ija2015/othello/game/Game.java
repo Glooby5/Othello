@@ -15,39 +15,81 @@ import java.util.List;
  * @author XKADER13, XZEMAN53
  */
 public class Game {
-    
-    private Board Board;
-    private List<Player> Players;
-    private int ActualPlayer;
-    
-    //Inicializuje hru.
+
+    private final Board board;
+    private Player playerOne;
+    private Player playerTwo;
+    private Player currentPlayer;
+
+    /**
+     * Inicializuje hru.
+     * @param board
+     */
     public Game(Board board)
     {
-        Board = board;
-        Players = new ArrayList<Player>();
-        ActualPlayer = 0;
+        this.board = board;
     }
-    
-    //Přidá hráče a současně vyvolá jeho inicializaci.
+
+    /**
+     * Přidá hráče a současně vyvolá jeho inicializaci.
+     * @param player
+     * @return
+     */
     public boolean addPlayer(Player player)
     {
-        player.init(Board);
-        return Players.add(player);
+        player.init(this.getBoard());
+
+        if (this.playerOne == null)
+        {
+            this.playerOne = player;
+            this.currentPlayer = player;
+        }
+        else if (this.playerTwo == null)
+        {
+            this.playerTwo = player;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
-    //Vrátí aktuálního hráče, který je na tahu.
+
+    /**
+     * Vrátí aktuálního hráče, který je na tahu.
+     * @return
+     */
     public Player currentPlayer()
     {
-        return Players.get(ActualPlayer);
+        return this.currentPlayer;
     }
-    //Vrátí hrací desku.
+
+    /**
+     * Vrátí hrací desku.
+     * @return
+     */
     public Board getBoard()
     {
-        return Board;
+        return this.board;
     }
-    //Změní aktuálního hráče.
+
+    /**
+     * Změní aktuálního hráče.
+     * @return
+     */
     public Player nextPlayer()
     {
-        return Players.get((ActualPlayer++) % Players.size());
+        if (this.currentPlayer == this.playerOne)
+        {
+            this.currentPlayer = this.playerTwo;
+        }
+        else
+        {
+            this.currentPlayer = this.playerOne;
+        }
+
+        return this.currentPlayer;
     }
 
 }

@@ -8,7 +8,9 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.*;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Queue;
+import java.util.function.Function;
 
 /**
  *
@@ -16,19 +18,36 @@ import java.util.Queue;
  */
 public class Player
 {
+    protected boolean isWhite;
+    protected boolean isHuman;
+    protected String name;
+    protected Queue<Disk> disks;
+    protected Board board;
 
-    private boolean isWhite;
-    private Queue<Disk> disks;
+    public Player(boolean isWhite, boolean isHuman, String name)
+    {
+        this.isWhite = isWhite;
+        this.isHuman = isHuman;
+        this.name = name;
+        this.disks = new ArrayDeque<>();
+    }
 
     public Player(boolean isWhite)
     {
         this.isWhite = isWhite;
+        this.isHuman = true;
+        this.name = "Unknown";
         this.disks = new ArrayDeque<>();
     }
 
     public boolean isWhite()
     {
         return this.isWhite;
+    }
+
+    public boolean isHuman()
+    {
+        return this.isHuman;
     }
 
     /**
@@ -59,7 +78,7 @@ public class Player
      */
     public void init(Board board)
     {
-        for (int i = 0; i < board.getSize() * board.getSize() / 2; i++)
+        for (int i = 0; i < board.getSize() * board.getSize(); i++)
         {
             this.disks.add(new Disk(this.isWhite));
         }
@@ -75,6 +94,42 @@ public class Player
             board.getField(board.getSize() / 2 + 1, board.getSize() / 2).putDisk(this.disks.poll());
         }
 
+        this.board = board;
+    }
+
+    public ArrayList<int[]> PossibleTurns()
+    {
+        ArrayList<int[]> turns = new ArrayList<int[]>();
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (canPutDisk(board.getField(row, col)))
+                {
+                    turns.add(new int[] { row, col});
+                }
+            }
+        }
+
+        return turns;
+    }
+
+    public int getScore()
+    {
+        int score = 0;
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (!board.getField(row, col).isEmpty() && board.getField(row, col).getDisk().isWhite() == isWhite())
+                {
+                    score++;
+                }
+            }
+        }
+        return score;
     }
 
     /**

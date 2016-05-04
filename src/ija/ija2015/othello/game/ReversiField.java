@@ -24,6 +24,9 @@ public class ReversiField extends AbstractField {
     @Override
     public boolean canPutDisk(Disk disk)
     {
+        if (!this.isEmpty())
+            return false;
+
         //Queue<Disk> disks = new ArrayDeque<>();
         Field next;
         for (Direction dir : Direction.values())
@@ -59,6 +62,7 @@ public class ReversiField extends AbstractField {
         for (Direction dir : Direction.values())
         {
             succes = false;
+            temp.clear();
 
             if (this.nextField(dir).isEmpty())
                 continue;

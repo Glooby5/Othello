@@ -1,16 +1,12 @@
 package ija.ija2015.othello;
 
 import ija.ija2015.othello.board.Board;
-import ija.ija2015.othello.board.Field;
-import ija.ija2015.othello.game.Game;
-import ija.ija2015.othello.game.Player;
-import ija.ija2015.othello.game.ReversiRules;
+import ija.ija2015.othello.game.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringJoiner;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,29 +28,15 @@ public class TestController
         Board board = new Board(rules);
         Game game = new Game(board);
 
-        Player p1 = new Player(true);
-        Player p2 = new Player(false);
+        //Player p1 = new Player(true);
+        Player p1 = new CostAI(true);
+        //Player p2 = new Player(false);
+        Player p2 = new RandomAI(false);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
 
-        System.out.print(game.getBoard().toString());
-
-
-        Field f1 = game.getBoard().getField(3, 4);
-        Field f2 = game.getBoard().getField(4, 6);
-
-        game.currentPlayer().putDisk(f2);
-
-        System.out.println(game.getBoard());
-
-
-        game.nextPlayer();
-
-        f2 = game.getBoard().getField(5, 6);
-        game.currentPlayer().putDisk(f2);
-
-        System.out.println(game.getBoard());
+        System.out.println(game.getBoard().toString());
 
         String coords = "";
         String splitString[];
@@ -65,24 +47,65 @@ public class TestController
 
         while (true)
         {
-            System.out.print(game.currentPlayer() + "\n");
-            game.PossibleTurns();
-            System.out.print("Enter:");
-            coords = br.readLine();
+            System.out.println("SCORE: " + game.currentPlayer().getScore());
+            if (game.currentPlayer().isHuman())
+            {
+                System.out.print(game.currentPlayer() + "\n");
 
-            try
-            {
-                splitString = coords.split(" ");
-                inX = Integer.parseInt(splitString[0]);
-                inY = Integer.parseInt(splitString[1]);
-            } catch (NumberFormatException nfe)
-            {
-                System.err.println("Invalid Format!");
+                ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
+
+                if (possibleTurns.size() == 0)
+                {
+                    System.out.println("PASS");
+                    game.nextPlayer();
+                    continue;
+                }
+
+                for (int[] turn : possibleTurns)
+                {
+                    System.out.print(turn[0] + " : " + turn[1] + " | ");
+                }
+
+                System.out.print(" Enter:\n");
+                coords = br.readLine();
+
+                try
+                {
+                    splitString = coords.split(" ");
+                    if (splitString.length == 1)
+                        continue;
+
+                    inX = Integer.parseInt(splitString[0]);
+                    inY = Integer.parseInt(splitString[1]);
+                } catch (NumberFormatException nfe)
+                {
+                    System.err.println("Invalid Format!");
+                }
+
+                game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
+                System.out.println(game.getBoard());
+                game.nextPlayer();
             }
+            else
+            {
+                br.readLine();
 
-            game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
-            System.out.println(game.getBoard());
-            game.nextPlayer();
+                ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
+
+                if (possibleTurns.size() == 0)
+                {
+                    System.out.println("PASS");
+                    game.nextPlayer();
+                    continue;
+                }
+                ((AI)game.currentPlayer()).Turn();
+                for (int[] turn : possibleTurns)
+                {
+                    System.out.print(turn[0] + " : " + turn[1] + " | ");
+                }
+                System.out.println("\n" + game.getBoard());
+                game.nextPlayer();
+            }
         }
     }
 }

@@ -93,17 +93,5 @@ public class Game {
         return this.currentPlayer;
     }
 
-    public void PossibleTurns()
-    {
-        for (int row = 1; row <= board.getSize(); row++)
-        {
-            for (int col = 1; col <= board.getSize(); col++)
-            {
-                if (currentPlayer.canPutDisk(board.getField(row, col)))
-                {
-                    System.out.println(row + " : " + col);
-                }
-            }
-        }
-    }
+
 }

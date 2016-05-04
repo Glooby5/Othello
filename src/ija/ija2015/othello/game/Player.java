@@ -7,56 +7,162 @@ package ija.ija2015.othello.game;
 
 import ija.ija2015.othello.board.*;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.function.Function;
+
 /**
  *
  * @author XKADER13, XZEMAN53
  */
-public class Player {
-    
-    private boolean IsWhite;
-    private int diskCount;
-    
-    //Inicializace hráče.
+public class Player
+{
+    protected boolean isWhite;
+    protected boolean isHuman;
+    protected String name;
+    protected Queue<Disk> disks;
+    protected Board board;
+
+    public Player(boolean isWhite, boolean isHuman, String name)
+    {
+        this.isWhite = isWhite;
+        this.isHuman = isHuman;
+        this.name = name;
+        this.disks = new ArrayDeque<>();
+    }
+
     public Player(boolean isWhite)
     {
-        IsWhite = isWhite;
+        this.isWhite = isWhite;
+        this.isHuman = true;
+        this.name = "Unknown";
+        this.disks = new ArrayDeque<>();
     }
-    
-    //Test, zda je možné vložit nový kámen hráče na dané pole.
+
+    public boolean isWhite()
+    {
+        return this.isWhite;
+    }
+
+    public boolean isHuman()
+    {
+        return this.isHuman;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * Test, zda je možné vložit nový kámen hráče na dané pole.
+     *
+     * @param field
+     * @return
+     */
     public boolean canPutDisk(Field field)
     {
-        return field.canPutDisk(new Disk(IsWhite));
+        return field.canPutDisk(this.disks.peek());
     }
 
-    //Test prázdnosti sady kamenů, které má hráč k dispozici.
+    /**
+     * Test prázdnosti sady kamenů, které má hráč k dispozici.
+     *
+     * @return
+     */
     public boolean emptyPool()
     {
-        return diskCount == 0;
+        return this.disks.isEmpty();
     }
 
-    //Inicializace hráče v rámci hrací desky.
+    /**
+     * Inicializace hráče v rámci hrací desky.
+     *
+     * @param board
+     */
     public void init(Board board)
     {
-        diskCount = board.getRules().numberDisks();
+        for (int i = 0; i < board.getSize() * board.getSize(); i++)
+        {
+            this.disks.add(new Disk(this.isWhite));
+        }
+
+        if (this.isWhite)
+        {
+            board.getField(board.getSize() / 2, board.getSize() / 2).putDisk(this.disks.poll());
+            board.getField(board.getSize() / 2 + 1, board.getSize() / 2 + 1).putDisk(this.disks.poll());
+        }
+        else
+        {
+            board.getField(board.getSize() / 2, board.getSize() / 2 + 1).putDisk(this.disks.poll());
+            board.getField(board.getSize() / 2 + 1, board.getSize() / 2).putDisk(this.disks.poll());
+        }
+
+        this.board = board;
     }
 
-    //Test barvy hráče.
-    public boolean IsWhite()
+    public ArrayList<int[]> PossibleTurns()
     {
-        return IsWhite;
+        ArrayList<int[]> turns = new ArrayList<int[]>();
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (canPutDisk(board.getField(row, col)))
+                {
+                    turns.add(new int[] { row, col});
+                }
+            }
+        }
+
+        return turns;
     }
 
-    //Vloží nový kámen hráče na dané pole, pokud to pravidla umožňují.
+    public int getScore()
+    {
+        int score = 0;
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (!board.getField(row, col).isEmpty() && board.getField(row, col).getDisk().isWhite() == isWhite())
+                {
+                    score++;
+                }
+            }
+        }
+        return score;
+    }
+
+    /**
+     * Vloží nový kámen hráče na dané pole, pokud to pravidla umožňují.
+     *
+     * @param field
+     * @return
+     */
     public boolean putDisk(Field field)
     {
-        return field.putDisk(new Disk(IsWhite));
+        if (this.emptyPool())
+            return false;
+
+        if (!field.canPutDisk(this.disks.peek()))
+            return false;
+
+        if (!field.putDisk(this.disks.peek()))
+            return false;
+
+        this.disks.poll();
+
+        return true;
     }
-    
-    @Override
+
     public String toString()
     {
-        return IsWhite ? "white" : "black";
+        return this.isWhite ? "W" : "B";
     }
 
-
 }
+

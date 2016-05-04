@@ -7,6 +7,9 @@ package ija.ija2015.othello.game;
 
 import ija.ija2015.othello.board.*;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  *
  * @author XKADER13, XZEMAN53
@@ -17,68 +20,90 @@ public class ReversiField extends AbstractField {
     {
         super(row, col);
     }
-    
+
     @Override
     public boolean canPutDisk(Disk disk)
     {
-        if(disk == null && !this.isEmpty())
+        if (!this.isEmpty())
             return false;
-        
-        Field.Direction[] dirs = Field.Direction.values();
-        for(int i = 0; i < 8; i++)
+
+        //Queue<Disk> disks = new ArrayDeque<>();
+        Field next;
+        for (Direction dir : Direction.values())
         {
-            Field next = nextField(dirs[i]);
-            
-            if((next != null) && !(next instanceof BorderField) && !next.isEmpty()) // not border and not empty
+            if (this.nextField(dir).isEmpty())
+                continue;
+
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+                continue;
+
+            next = this.nextField(dir).nextField(dir);
+
+            while(!next.isEmpty())
             {
-                if(next.getDisk().isWhite() != disk.isWhite())
-                {
-                    Field afterNext = next.nextField(dirs[i]);
-                    while((afterNext != null) && !(afterNext instanceof BorderField) && !afterNext.isEmpty())
-                    {
-                        if(afterNext.getDisk().isWhite() == disk.isWhite())
-                            return true;
-                        
-                        afterNext = afterNext.nextField(dirs[i]);
-                    }
-                }
+                if (next.getDisk().isWhite() == disk.isWhite())
+                    return true;
+
+                next = next.nextField(dir);
             }
         }
-        
+
         return false;
     }
-    
-    //Vloží na pole kámen.
+
+    public boolean turnDisks(Disk disk)
+    {
+        Queue<Disk> disks = new ArrayDeque<>();
+        Queue<Disk> temp = new ArrayDeque<>();
+
+        Field next;
+        boolean succes;
+
+        for (Direction dir : Direction.values())
+        {
+            succes = false;
+            temp.clear();
+
+            if (this.nextField(dir).isEmpty())
+                continue;
+
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+                continue;
+
+            temp.add(this.nextField(dir).getDisk());
+            next = this.nextField(dir).nextField(dir);
+
+            while(!next.isEmpty())
+            {
+                if (next.getDisk().isWhite() == disk.isWhite())
+                {
+                    succes = true;
+                    break;
+                }
+
+                temp.add(next.getDisk());
+                next = next.nextField(dir);
+            }
+
+            if (succes) {
+                disks.addAll(temp);
+            }
+        }
+
+        disks.forEach(d -> d.turn());
+
+        return false;
+    }
+
     @Override
     public boolean putDisk(Disk disk)
     {
-        if(disk == null)
+        if (super.Disk != null)
             return false;
-        
-        Field.Direction[] dirs = Field.Direction.values();
-        for(int i = 0; i < 8; i++)
-        {
-            Field next = nextField(dirs[i]);
-            if(next != null && !(next instanceof BorderField) && !next.isEmpty())
-            {
-                if(next.getDisk().isWhite() != disk.isWhite())
-                {
-                    Field afterNext = next.nextField(dirs[i]);
-                    while((afterNext != null) && !(afterNext instanceof BorderField) && !afterNext.isEmpty())
-                    {
-                        next.getDisk().turn();
-                        
-                        if(afterNext.getDisk().isWhite() == disk.isWhite())
-                            break;
-                        
-                        next = afterNext;
-                        afterNext = afterNext.nextField(dirs[i]);
-                    }
-                }
-            }
-        }
-        
+
         super.Disk = disk;
+        this.turnDisks(disk);
+
         return true;
     }
 }

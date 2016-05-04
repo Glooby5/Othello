@@ -17,14 +17,19 @@ public class Disk {
     {
         this.isWhite = isWhite;
     }
-    
-    //Test, zda je kámen bílý.
+
+    /**
+     * Test, zda je kámen bílý.
+     * @return
+     */
     public boolean isWhite()
     {
         return this.isWhite;
     }
 
-    //Otočení (změna barvy) kamene.
+    /**
+     * Otočení (změna barvy) kamene.
+     */
     public void	turn()
     {
         this.isWhite = !this.isWhite;

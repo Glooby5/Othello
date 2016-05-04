@@ -13,45 +13,46 @@ import ija.ija2015.othello.board.*;
  */
 public class ReversiRules implements Rules {
 
-    private int Size;
-    
-    //Inicializace pravidel.
+    private int size;
+    private int disks;
+
+    /**
+     * Inicializace pravidel.
+     * @param size
+     */
     public ReversiRules(int size)
     {
-        Size = size;
+        this.size = size;
+        this.disks = this.size * this.size / 2;
     }
-    
-    protected Disk putDefaultDisks(int row, int col)
-    {
-        int halfSize = Size/2;
 
-        if ((col == row) && (row == halfSize || row == halfSize+1))
-            return new Disk(true);
-        else if ((row+1 == col && row == halfSize) || (row-1 == col && col == halfSize))
-            return new Disk(false);
-        else
-            return null;
-    }
-    
-    @Override
+
+    /**
+     * Vytvoří odpovídající pole na zadaných indexech.
+     * @param row
+     * @param col
+     * @return
+     */
     public Field createField(int row, int col)
     {
-        Field field = new ReversiField(row, col);
-        field.putDisk(putDefaultDisks(row, col));
-        return field;
+        return new ReversiField(row, col);
     }
-    
-    @Override
+
+    /**
+     * Vrací velikost desky.
+     * @return
+     */
     public int getSize()
     {
-        return Size;
+        return this.size;
     }
 
-    @Override
+    /**
+     * Vrací počet kamenů jednotlivých hráčů.
+     * @return
+     */
     public int numberDisks()
     {
-        return (Size*Size)/2;
+        return this.disks;
     }
-
-
 }

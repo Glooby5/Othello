@@ -9,7 +9,7 @@
   - zablokované kameny nelze použít pro tvorbu řad (tj. zajímání soupeřových kamenů)
 - [ ] vytvořit a hrát více her současně
 - [ ] uložit a načíst rozehranou partii
-- [ ] operaci undo (historii tahů není třeba ukládat)
+- [x] operaci undo (historii tahů není třeba ukládat)
 - [x] zvolit soupeře
   - člověk nebo počítač
   - v případě počítače implementujte dva různé (triviální !) algoritmy; před hrou se zvolí konkrétní algoritmus

@@ -55,4 +55,6 @@ public interface Field {
      * @return
      */
     public boolean putDisk(Disk disk);
+
+    public boolean removeDisk();
 }

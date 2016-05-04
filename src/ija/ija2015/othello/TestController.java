@@ -29,8 +29,8 @@ public class TestController
         Board board = new Board(rules);
         game = new Game(board);
 
-        //Player p1 = new Player(true);
-        Player p1 = new CostAI(true);
+        Player p1 = new Player(true, true, "Honza");
+        //Player p1 = new CostAI(true);
         //Player p2 = new Player(false);
         Player p2 = new RandomAI(false);
 
@@ -85,6 +85,12 @@ public class TestController
         int inY = 0;
 
         coords = br.readLine();
+
+        if (coords.equals("u"))
+        {
+            game.undo();
+            return;
+        }
 
         try
         {

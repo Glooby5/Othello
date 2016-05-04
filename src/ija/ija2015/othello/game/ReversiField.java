@@ -8,6 +8,8 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.*;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -15,10 +17,13 @@ import java.util.Queue;
  * @author XKADER13, XZEMAN53
  */
 public class ReversiField extends AbstractField {
-    
+
+    private ArrayList<Disk> turnedDisks;
+
     public ReversiField(int row, int col)
     {
         super(row, col);
+        turnedDisks = new ArrayList<Disk>();
     }
 
     @Override
@@ -55,6 +60,7 @@ public class ReversiField extends AbstractField {
     {
         Queue<Disk> disks = new ArrayDeque<>();
         Queue<Disk> temp = new ArrayDeque<>();
+        turnedDisks.clear();
 
         Field next;
         boolean succes;
@@ -91,6 +97,7 @@ public class ReversiField extends AbstractField {
         }
 
         disks.forEach(d -> d.turn());
+        turnedDisks.addAll(disks);
 
         return false;
     }
@@ -105,5 +112,10 @@ public class ReversiField extends AbstractField {
         this.turnDisks(disk);
 
         return true;
+    }
+
+    public ArrayList<Disk> getTurnedDisks()
+    {
+        return this.turnedDisks;
     }
 }

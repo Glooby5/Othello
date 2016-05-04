@@ -10,6 +10,7 @@ import ija.ija2015.othello.board.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.function.Function;
 
 /**
@@ -23,13 +24,23 @@ public class Player
     protected String name;
     protected Queue<Disk> disks;
     protected Board board;
+    protected Stack<ArrayList<Disk>> turns;
+    protected Stack<Field> added;
 
+    /**
+     *
+     * @param isWhite Bílá hráč?
+     * @param isHuman Člověk?
+     * @param name Jméno
+     */
     public Player(boolean isWhite, boolean isHuman, String name)
     {
         this.isWhite = isWhite;
         this.isHuman = isHuman;
         this.name = name;
         this.disks = new ArrayDeque<>();
+        this.turns = new Stack<>();
+        this.added = new Stack<>();
     }
 
     public Player(boolean isWhite)
@@ -38,6 +49,8 @@ public class Player
         this.isHuman = true;
         this.name = "Unknown";
         this.disks = new ArrayDeque<>();
+        this.turns = new Stack<>();
+        this.added = new Stack<>();
     }
 
     public boolean isWhite()
@@ -154,6 +167,9 @@ public class Player
         if (!field.putDisk(this.disks.peek()))
             return false;
 
+
+        this.turns.push(((ReversiField)field).getTurnedDisks());
+        this.added.push(field);
         this.disks.poll();
 
         return true;
@@ -162,6 +178,20 @@ public class Player
     public String toString()
     {
         return this.isWhite ? "W" : "B";
+    }
+
+    public boolean undo()
+    {
+        if (this.turns.size() == 0)
+        {
+            return false;
+        }
+
+        this.turns.pop().forEach(x -> x.turn());
+        this.disks.add(this.added.peek().getDisk());
+        this.added.pop().removeDisk();
+
+        return true;
     }
 
 }

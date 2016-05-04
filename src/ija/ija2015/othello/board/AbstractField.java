@@ -86,6 +86,13 @@ public abstract class AbstractField implements Field
         this.Disk = disk;
         return true;
     }
+
+    @Override
+    public boolean removeDisk()
+    {
+        this.Disk = null;
+        return true;
+    }
     
     @Override
     public boolean equals(java.lang.Object obj) 

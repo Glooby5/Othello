@@ -66,6 +66,12 @@ public class BorderField implements Field {
     {
         return false;
     }
+
+    @Override
+    public boolean removeDisk()
+    {
+        return false;
+    }
     
     @Override
     public String toString()

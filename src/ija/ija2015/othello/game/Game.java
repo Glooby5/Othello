@@ -136,4 +136,10 @@ public class Game {
 
         return score;
     }
+
+    public void undo()
+    {
+        currentPlayer().undo();
+        nextPlayer().undo();
+    }
 }

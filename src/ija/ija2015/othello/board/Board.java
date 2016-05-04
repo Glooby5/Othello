@@ -50,9 +50,9 @@ public class Board {
 
     private void setDirections(int size)
     {
-        for (int i = 1; i + 1 < size; i++) // řádky
+        for (int i = 1; i <= size; i++) // řádky
         {
-            for (int j = 1; j + 1 < size; j++) // sloupce
+            for (int j = 1; j <= size; j++) // sloupce
             {
                 this.fieldArray[i][j].addNextField(Field.Direction.R, this.fieldArray[i][j + 1]);
                 this.fieldArray[i][j].addNextField(Field.Direction.L, this.fieldArray[i][j - 1]);
@@ -63,8 +63,6 @@ public class Board {
                 this.fieldArray[i][j].addNextField(Field.Direction.RU, this.fieldArray[i - 1][j + 1]);
                 this.fieldArray[i][j].addNextField(Field.Direction.RD, this.fieldArray[i + 1][j + 1]);
             }
-            this.fieldArray[i][0] = new BorderField();
-            this.fieldArray[i][size - 1] = new BorderField();
         }
     }
 
@@ -88,5 +86,44 @@ public class Board {
     public int getSize()
     {
         return this.rules.getSize();
+    }
+
+    @Override
+    public String toString()
+    {
+        String boardVisual = "   ";
+
+        for(int i = 1; i <= getSize(); i++)
+            boardVisual += String.format(" %1$d ", i);
+
+        boardVisual += "\n   ";
+
+        for(int i = 1; i <= getSize(); i++)
+            boardVisual += " _ ";
+
+        boardVisual += "\n ";
+
+        for(int r = 1; r < getSize() + 1; r++)
+        {
+            boardVisual += String.format("%1$d|", r);
+            for(int c = 1; c < getSize() + 1; c++)
+            {
+                if (this.getField(r, c).isEmpty())
+                    boardVisual += "   ";
+                else
+                    boardVisual += String.format(" %1$s ", this.getField(r, c).toString());
+            }
+
+            boardVisual += String.format(" |%1$d\n ", r);
+        }
+
+        boardVisual += "  ";
+
+        for(int i = 1; i <= getSize(); i++)
+            boardVisual += " _ ";
+
+        boardVisual += "\n";
+
+        return boardVisual;
     }
 }

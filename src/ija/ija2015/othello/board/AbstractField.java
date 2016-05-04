@@ -102,6 +102,6 @@ public abstract class AbstractField implements Field
     @Override
     public String toString()
     {
-        return (Disk == null) ? " |" : String.format("%1$d|", Disk.toString());
+        return (Disk == null) ? " " : String.format("%1$s", Disk.toString());
     }
 }

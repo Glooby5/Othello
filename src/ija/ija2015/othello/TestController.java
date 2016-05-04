@@ -17,16 +17,17 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestController
 {
+    static Game game;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
     public static void main (String args[]) throws IOException
     {
-        System.out.println ("Hello World!");
-
-        System.out.println("Game");
-        int size = 8;
+        int size = 6;
 
         ReversiRules rules = new ReversiRules(size);
+
         Board board = new Board(rules);
-        Game game = new Game(board);
+        game = new Game(board);
 
         //Player p1 = new Player(true);
         Player p1 = new CostAI(true);
@@ -38,74 +39,68 @@ public class TestController
 
         System.out.println(game.getBoard().toString());
 
+        while (!game.isEnd())
+        {
+            System.out.println("SCORE: " + game.getScore()[0] + " : " + game.getScore()[1]);
+            System.out.print(game.currentPlayer().getName() + " " + game.currentPlayer() + "\n");
+
+            ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
+
+            if (possibleTurns.size() == 0)
+            {
+                System.out.println("PASS");
+                game.nextPlayer();
+                continue;
+            }
+
+            for (int[] turn : possibleTurns)
+            {
+                System.out.print(turn[0] + " : " + turn[1] + " | ");
+            }
+
+            if (game.currentPlayer().isHuman())
+            {
+                humanTurn();
+            }
+            else
+            {
+                br.readLine();
+                ((AI)game.currentPlayer()).Turn();
+            }
+
+            System.out.println("\n" + game.getBoard());
+            game.nextPlayer();
+        }
+
+        System.out.println("Winner: " + game.getWinner());
+        System.out.println("SCORE: " + game.getScore()[0] + " : " + game.getScore()[1]);
+    }
+
+    private static void humanTurn() throws IOException
+    {
+        System.out.print(" Enter:\n");
         String coords = "";
         String splitString[];
         int inX = 0;
         int inY = 0;
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        coords = br.readLine();
 
-        while (true)
+        try
         {
-            System.out.println("SCORE: " + game.currentPlayer().getScore());
-            if (game.currentPlayer().isHuman())
-            {
-                System.out.print(game.currentPlayer() + "\n");
+            splitString = coords.split(" ");
 
-                ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
+            if (splitString.length == 1)
+                return;
 
-                if (possibleTurns.size() == 0)
-                {
-                    System.out.println("PASS");
-                    game.nextPlayer();
-                    continue;
-                }
-
-                for (int[] turn : possibleTurns)
-                {
-                    System.out.print(turn[0] + " : " + turn[1] + " | ");
-                }
-
-                System.out.print(" Enter:\n");
-                coords = br.readLine();
-
-                try
-                {
-                    splitString = coords.split(" ");
-                    if (splitString.length == 1)
-                        continue;
-
-                    inX = Integer.parseInt(splitString[0]);
-                    inY = Integer.parseInt(splitString[1]);
-                } catch (NumberFormatException nfe)
-                {
-                    System.err.println("Invalid Format!");
-                }
-
-                game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
-                System.out.println(game.getBoard());
-                game.nextPlayer();
-            }
-            else
-            {
-                br.readLine();
-
-                ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
-
-                if (possibleTurns.size() == 0)
-                {
-                    System.out.println("PASS");
-                    game.nextPlayer();
-                    continue;
-                }
-                ((AI)game.currentPlayer()).Turn();
-                for (int[] turn : possibleTurns)
-                {
-                    System.out.print(turn[0] + " : " + turn[1] + " | ");
-                }
-                System.out.println("\n" + game.getBoard());
-                game.nextPlayer();
-            }
+            inX = Integer.parseInt(splitString[0]);
+            inY = Integer.parseInt(splitString[1]);
         }
+        catch (NumberFormatException nfe)
+        {
+            System.err.println("Invalid Format!");
+        }
+
+        game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
     }
 }

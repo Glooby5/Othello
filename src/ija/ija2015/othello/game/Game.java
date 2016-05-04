@@ -94,4 +94,46 @@ public class Game {
     }
 
 
+    public boolean isEnd()
+    {
+        if (currentPlayer().PossibleTurns().size() == 0)
+        {
+            if (nextPlayer().PossibleTurns().size() == 0)
+            {
+                return true;
+            }
+            nextPlayer();
+        }
+
+        return false;
+    }
+
+    public Player getWinner()
+    {
+        int first = currentPlayer().getScore();
+        int second = nextPlayer().getScore();
+
+        if (first > second)
+        {
+            return nextPlayer();
+        }
+        else if (first < second)
+        {
+            return currentPlayer();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public int[] getScore()
+    {
+        int[] score = new int[2];
+
+        score[0] = this.playerOne.getScore();
+        score[1] = this.playerTwo.getScore();
+
+        return score;
+    }
 }

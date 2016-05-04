@@ -50,6 +50,11 @@ public class Player
         return this.isHuman;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
     /**
      * Test, zda je možné vložit nový kámen hráče na dané pole.
      *
@@ -156,7 +161,7 @@ public class Player
 
     public String toString()
     {
-        return this.isWhite ? "white" : "black";
+        return this.isWhite ? "W" : "B";
     }
 
 }

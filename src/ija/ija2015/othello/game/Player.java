@@ -45,12 +45,7 @@ public class Player
 
     public Player(boolean isWhite)
     {
-        this.isWhite = isWhite;
-        this.isHuman = true;
-        this.name = "Unknown";
-        this.disks = new ArrayDeque<>();
-        this.turns = new Stack<>();
-        this.added = new Stack<>();
+        this(isWhite, true, "Unknown");
     }
 
     public boolean isWhite()

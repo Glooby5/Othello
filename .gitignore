@@ -1,5 +1,6 @@
 /.idea
 /out
+/dest-client
 Othello.iml
 # Windows image file caches
 Thumbs.db
@@ -49,3 +50,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.game
+*.jar
+*.jar
+*.jar
+dest-client/othello-client.jar
+dest-client/othello-client.jar
+dest-client/othello-client.jar

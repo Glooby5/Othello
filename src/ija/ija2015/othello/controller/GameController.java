@@ -153,12 +153,24 @@ public class GameController {
                 Fields[row][col].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
+                        if (game.isEnd())
+                            return;
 
-                        game.Place(game.getBoard().getField(c+1, r+1));
+                        if (game.currentPlayer().PossibleTurns().size() == 0)
+                        {
+                            System.out.println("PASS jak hovado\n");
+                            game.nextPlayer();
+                        }
+                        else
+                        {
+                            game.Place(game.getBoard().getField(c+1, r+1));
 
-                        System.out.println("\n" + game.getBoard());
+                            System.out.println("\n" + game.getBoard());
 
-                        DrawBoard();
+                            DrawBoard();
+                        }
+
+
                         if(!game.currentPlayer().isHuman()) {
                             game.Place(((AI)game.currentPlayer()).Turn());
                             System.out.println("\n" + game.getBoard());

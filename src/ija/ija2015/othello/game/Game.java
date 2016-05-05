@@ -46,23 +46,11 @@ public class Game implements Serializable
         timerInterval = 5;
         freezeInterval = 8;
         freezeCount = 8;
+
         unfreeze = false;
         isFreeze = false;
     }
 
-    /**
-     * Vrátí hrací desku.
-     * @return Hrací deska
-     */
-    public Board getBoard()
-    {
-        return this.board;
-    }
-
-    public CommandManager getCommandManager()
-    {
-        return commandManager;
-    }
 
     /**
      * Přidá hráče a současně vyvolá jeho inicializaci.
@@ -115,73 +103,6 @@ public class Game implements Serializable
         }
 
         return this.currentPlayer;
-    }
-
-    /**
-     * Ověří zda již není konec hry
-     * @return True pokud je konec hry, jinak False
-     */
-    public boolean isEnd()
-    {
-        if (currentPlayer().PossibleTurns().size() == 0)
-        {
-            if (nextPlayer().PossibleTurns().size() == 0)
-            {
-                return true;
-            }
-            nextPlayer();
-        }
-
-        return false;
-    }
-
-    /**
-     * Zjistí vítěze
-     * @return vítěz
-     */
-    public Player getWinner()
-    {
-        int first = currentPlayer().getScore();
-        int second = nextPlayer().getScore();
-
-        if (first > second)
-        {
-            return nextPlayer();
-        }
-        else if (first < second)
-        {
-            return currentPlayer();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public int[] getScore()
-    {
-        int[] score = new int[2];
-
-        score[0] = this.playerOne.getScore();
-        score[1] = this.playerTwo.getScore();
-
-        return score;
-    }
-
-    private ArrayList<Disk> getDisks()
-    {
-        ArrayList<Disk> disks = new ArrayList<>();
-
-        for (int row = 1; row <= board.getSize(); row++)
-        {
-            for (int col = 1; col <= board.getSize(); col++)
-            {
-                if (!board.getField(row, col).isEmpty())
-                    disks.add(board.getField(row, col).getDisk());
-            }
-        }
-
-        return disks;
     }
 
     public void addFreezeListener(ActionListener listener)
@@ -253,10 +174,11 @@ public class Game implements Serializable
 
     public void Place(Field field)
     {
-        commandManager.Execute(new PutCommand(currentPlayer, field));
-
-        nextPlayer();
-        setFreeze();
+        if (commandManager.Execute(new PutCommand(currentPlayer, field)))
+        {
+            nextPlayer();
+            setFreeze();
+        }
     }
 
     public void Undo()
@@ -265,18 +187,89 @@ public class Game implements Serializable
         commandManager.Undo();
     }
 
-    public Player getPlayerOne()
-    {
-        return playerOne;
-    }
-
-    public Player getPlayerTwo()
-    {
-        return playerTwo;
-    }
-
     public int randInt(int min, int max)
     {
         return rand.nextInt((max - min) + 1) + min;
+    }
+
+    /**
+     * Ověří zda již není konec hry
+     * @return True pokud je konec hry, jinak False
+     */
+    public boolean isEnd()
+    {
+        if (currentPlayer().PossibleTurns().size() == 0)
+        {
+            if (nextPlayer().PossibleTurns().size() == 0)
+            {
+                return true;
+            }
+            nextPlayer();
+        }
+
+        return false;
+    }
+
+    /**
+     * Zjistí vítěze
+     * @return vítěz
+     */
+    public Player getWinner()
+    {
+        int first = currentPlayer().getScore();
+        int second = nextPlayer().getScore();
+
+        if (first > second)
+        {
+            return nextPlayer();
+        }
+        else if (first < second)
+        {
+            return currentPlayer();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public int[] getScore()
+    {
+        int[] score = new int[2];
+
+        score[0] = this.playerOne.getScore();
+        score[1] = this.playerTwo.getScore();
+
+        return score;
+    }
+
+    private ArrayList<Disk> getDisks()
+    {
+        ArrayList<Disk> disks = new ArrayList<>();
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (!board.getField(row, col).isEmpty())
+                    disks.add(board.getField(row, col).getDisk());
+            }
+        }
+
+        return disks;
+    }
+
+    /**
+     * Vrátí hrací desku.
+     * @return Hrací deska
+     */
+    public Board getBoard()
+    {
+        return this.board;
+    }
+
+    public CommandManager getCommandManager()
+    {
+        return commandManager;
     }
 }

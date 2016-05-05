@@ -8,7 +8,7 @@
   - kameny se odblokují po uplynutí doby blokování, ale až po ukončení aktuálního tahu
   - zablokované kameny nelze použít pro tvorbu řad (tj. zajímání soupeřových kamenů)
 - [ ] vytvořit a hrát více her současně
-- [ ] uložit a načíst rozehranou partii
+- [x] uložit a načíst rozehranou partii
 - [x] operaci undo (historii tahů není třeba ukládat)
 - [x] zvolit soupeře
   - člověk nebo počítač

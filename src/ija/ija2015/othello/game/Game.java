@@ -7,10 +7,8 @@ package ija.ija2015.othello.game;
 
 import ija.ija2015.othello.board.*;
 
-import java.io.Console;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -20,6 +18,7 @@ public class Game implements Serializable
 {
     private final Board board;
     private CommandManager commandManager;
+    private DiskFreezing diskFreezing;
 
     private Player playerOne;
     private Player playerTwo;
@@ -35,17 +34,63 @@ public class Game implements Serializable
         this.commandManager = new CommandManager();
     }
 
-    /**
-     * Vrátí hrací desku.
-     * @return Hrací deska
-     */
-    public Board getBoard()
+    public void Place(Field field)
     {
-        return this.board;
+        if (!commandManager.Execute(new PutCommand(currentPlayer, field)))
+            return;
+
+        nextPlayer();
+
+        if (diskFreezing != null)
+            diskFreezing.SetFreeze();
+    }
+
+    public void Undo()
+    {
+        if (diskFreezing != null)
+            diskFreezing.UnfreezeAll();
+
+        commandManager.Undo();
+        commandManager.Undo();
+    }
+
+    //region DiskFreezing
+
+    public void setDiskFreezing(DiskFreezing diskFreezing)
+    {
+        this.diskFreezing = diskFreezing;
     }
 
     /**
+     * Přidá možnost zamrzání kamenů
+     *
+     * @param timerInterval Maximální doba pro zamrznutí kamenů
+     * @param freezeInterval Doba zamrznutí kamenů
+     * @param freezeCount Počet kamenů k zamrznutí
+     */
+    public void setDiskFreezing(int timerInterval, int freezeInterval, int freezeCount)
+    {
+        this.diskFreezing = new DiskFreezing(this, timerInterval, freezeInterval, freezeCount);
+    }
+
+    /**
+     * Nastavení listeneru pro zachycení zamrznutí
+     *
+     * @param listener
+     */
+    public void setFreezeListener(ActionListener listener)
+    {
+        if (diskFreezing != null)
+            diskFreezing.setFreezeListener(listener);
+    }
+
+    //endregion
+
+    //region Player
+
+    /**
      * Přidá hráče a současně vyvolá jeho inicializaci.
+     *
      * @param player Hráč
      * @return Pokud šlo přidat
      */
@@ -98,24 +143,6 @@ public class Game implements Serializable
     }
 
     /**
-     * Ověří zda již není konec hry
-     * @return True pokud je konec hry, jinak False
-     */
-    public boolean isEnd()
-    {
-        if (currentPlayer().PossibleTurns().size() == 0)
-        {
-            if (nextPlayer().PossibleTurns().size() == 0)
-            {
-                return true;
-            }
-            nextPlayer();
-        }
-
-        return false;
-    }
-
-    /**
      * Zjistí vítěze
      * @return vítěz
      */
@@ -138,6 +165,32 @@ public class Game implements Serializable
         }
     }
 
+    //endregion
+
+    /**
+     * Ověří zda již není konec hry
+     *
+     * @return True pokud je konec hry, jinak False
+     */
+    public boolean isEnd()
+    {
+        if (currentPlayer().PossibleTurns().size() == 0)
+        {
+            if (nextPlayer().PossibleTurns().size() == 0)
+            {
+                return true;
+            }
+            nextPlayer();
+        }
+
+        return false;
+    }
+
+    /**
+     * Získání skóre
+     *
+     * @return Skóre hráčů. [0] - první hráč, [1] - druhý hráč
+     */
     public int[] getScore()
     {
         int[] score = new int[2];
@@ -148,15 +201,14 @@ public class Game implements Serializable
         return score;
     }
 
-    public void Place(Field field)
+
+    public Board getBoard()
     {
-        commandManager.Execute(new PutCommand(currentPlayer, field));
-        nextPlayer();
+        return this.board;
     }
 
-    public void Undo()
+    public CommandManager getCommandManager()
     {
-        commandManager.Undo();
-        commandManager.Undo();
+        return commandManager;
     }
 }

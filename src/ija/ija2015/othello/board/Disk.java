@@ -12,10 +12,12 @@ package ija.ija2015.othello.board;
 public class Disk {
     
     private boolean isWhite;
+    protected boolean isFrozen;
     
     public Disk(boolean isWhite)
     {
         this.isWhite = isWhite;
+        isFrozen = false;
     }
 
     /**
@@ -25,6 +27,21 @@ public class Disk {
     public boolean isWhite()
     {
         return this.isWhite;
+    }
+
+    public boolean isFrozen()
+    {
+        return isFrozen;
+    }
+
+    public void freeze()
+    {
+        isFrozen = true;
+    }
+
+    public void unfreeze()
+    {
+        isFrozen = false;
     }
 
     /**
@@ -50,6 +67,6 @@ public class Disk {
     @Override
     public String toString()
     {
-        return isWhite ? "W" : "B";
+        return isWhite ? isFrozen ? "w" : "W" : isFrozen ? "b" : "B";
     }
 }

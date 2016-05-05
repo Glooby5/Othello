@@ -55,3 +55,4 @@ Temporary Items
 dest-client/othello-client.jar
 dest-client/othello-client.jar
 dest-client/othello-client.jar
+*.game

@@ -60,6 +60,8 @@ public abstract class AbstractField implements Field
         return Disk == null;
     }
 
+
+
     /**
      * Vrátí sousední pole v daném směru dirs.
      * @param dirs
@@ -93,7 +95,17 @@ public abstract class AbstractField implements Field
         this.Disk = null;
         return true;
     }
-    
+
+    public int getRow()
+    {
+        return Row;
+    }
+
+    public int getCol()
+    {
+        return Col;
+    }
+
     @Override
     public boolean equals(java.lang.Object obj) 
     {

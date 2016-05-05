@@ -14,11 +14,13 @@ public class CommandManager
         this.commands = new Stack<>();
     }
 
-    public void Execute(PutCommand command)
+    public boolean Execute(PutCommand command)
     {
-        command.Execute();
+        boolean success = command.Execute();
 
         commands.push(command);
+
+        return success;
     }
 
     public void Undo()
@@ -32,5 +34,10 @@ public class CommandManager
 
         command.getField().removeDisk();
         command.getTurnedDisks().forEach(disk -> disk.turn());
+    }
+
+    public Stack<PutCommand> getCommands()
+    {
+        return commands;
     }
 }

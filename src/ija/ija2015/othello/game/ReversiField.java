@@ -9,7 +9,6 @@ import ija.ija2015.othello.board.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -51,13 +50,16 @@ public class ReversiField extends AbstractField {
             if (this.nextField(dir).isEmpty())
                 continue;
 
-            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite()  || nextField(dir).getDisk().isFrozen())
                 continue;
 
             next = this.nextField(dir).nextField(dir);
 
             while(!next.isEmpty())
             {
+                if (next.getDisk().isFrozen())
+                    break;
+
                 if (next.getDisk().isWhite() == disk.isWhite())
                     return true;
 
@@ -85,7 +87,7 @@ public class ReversiField extends AbstractField {
             if (this.nextField(dir).isEmpty())
                 continue;
 
-            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite() || nextField(dir).getDisk().isFrozen())
                 continue;
 
             temp.add(this.nextField(dir).getDisk());
@@ -93,6 +95,9 @@ public class ReversiField extends AbstractField {
 
             while(!next.isEmpty())
             {
+                if (next.getDisk().isFrozen())
+                    break;
+
                 if (next.getDisk().isWhite() == disk.isWhite())
                 {
                     succes = true;

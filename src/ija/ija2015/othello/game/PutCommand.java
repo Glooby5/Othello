@@ -20,10 +20,13 @@ public class PutCommand
         this.field = field;
     }
 
-    public void Execute()
+    public boolean Execute()
     {
-        player.putDisk(field);
+        boolean success = player.putDisk(field);
+
         turnedDisks = new ArrayList<Disk>(((ReversiField)field).getTurnedDisks());
+
+        return success;
     }
 
     public Field getField()

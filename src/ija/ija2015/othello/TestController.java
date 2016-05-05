@@ -29,13 +29,30 @@ public class TestController
 
         Player p1 = new Player(true, true, "Honza");
         //Player p1 = new CostAI(true);
-        //Player p2 = new Player(false);
-        Player p2 = new RandomAI(false);
+        Player p2 = new Player(false);
+        //Player p2 = new RandomAI(false);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
 
+        String coords = br.readLine();
         System.out.println(game.getBoard().toString());
+
+        if (coords.startsWith("l"))
+        {
+            GameLoader loader = new GameLoader();
+
+            try
+            {
+                game = loader.Load(coords.substring(2));
+            }
+            catch (Exception ex) { }
+        }
+
+        System.out.println(game.getBoard().toString());
+
+        game.setDiskFreezing(10, 8, 5);
+        game.setFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
 
         while (!game.isEnd())
         {
@@ -87,6 +104,19 @@ public class TestController
         {
             game.Undo();
             return;
+        }
+        else if (coords.equals("s"))
+        {
+            GameSaver saver = new GameSaver(game);
+
+            try
+            {
+                saver.Save("game.game");
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         try

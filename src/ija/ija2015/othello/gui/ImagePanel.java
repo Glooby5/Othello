@@ -22,7 +22,7 @@ public class ImagePanel extends JPanel {
         setLayout(new BorderLayout());
         setOpaque(false);
         image = img;
-        /*addMouseListener(new MouseAdapter() {
+       /* addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println("Do Something Clicked on disk.");

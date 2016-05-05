@@ -4,9 +4,7 @@ import ija.ija2015.othello.board.Board;
 import ija.ija2015.othello.game.*;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,6 +37,7 @@ public class TestController
 
         String coords = br.readLine();
         System.out.println(game.getBoard().toString());
+
         if (coords.startsWith("l"))
         {
             GameLoader loader = new GameLoader();
@@ -51,6 +50,8 @@ public class TestController
         }
 
         System.out.println(game.getBoard().toString());
+
+        game.addFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
 
         while (!game.isEnd())
         {

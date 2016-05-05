@@ -60,6 +60,8 @@ public abstract class AbstractField implements Field
         return Disk == null;
     }
 
+
+
     /**
      * Vrátí sousední pole v daném směru dirs.
      * @param dirs

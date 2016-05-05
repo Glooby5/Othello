@@ -7,10 +7,10 @@ package ija.ija2015.othello.game;
 
 import ija.ija2015.othello.board.*;
 
-import java.io.Console;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -20,10 +20,18 @@ public class Game implements Serializable
 {
     private final Board board;
     private CommandManager commandManager;
+    private ActionListener freezeListener;
+    private Random rand;
 
     private Player playerOne;
     private Player playerTwo;
     private Player currentPlayer;
+
+    private int timerInterval;
+    private int freezeInterval;
+    private int freezeCount;
+    private boolean unfreeze;
+    private boolean isFreeze;
 
     /**
      * Inicializuje hru.
@@ -33,6 +41,13 @@ public class Game implements Serializable
     {
         this.board = board;
         this.commandManager = new CommandManager();
+        this.rand = new Random();
+
+        timerInterval = 5;
+        freezeInterval = 8;
+        freezeCount = 8;
+        unfreeze = false;
+        isFreeze = false;
     }
 
     /**
@@ -153,10 +168,95 @@ public class Game implements Serializable
         return score;
     }
 
+    private ArrayList<Disk> getDisks()
+    {
+        ArrayList<Disk> disks = new ArrayList<>();
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (!board.getField(row, col).isEmpty())
+                    disks.add(board.getField(row, col).getDisk());
+            }
+        }
+
+        return disks;
+    }
+
+    public void addFreezeListener(ActionListener listener)
+    {
+        freezeListener = listener;
+    }
+
+    private void freezeDisks()
+    {
+        ArrayList<Disk> disks = getDisks();
+
+        freezeCount = randInt(0, freezeCount);
+        freezeCount = freezeCount > disks.size() ? disks.size() : freezeCount;
+
+        for (int i = 0; i < freezeCount; i++)
+        {
+            disks.get(i).freeze();
+        }
+
+        unfreeze = false;
+        isFreeze = true;
+
+        freezeListener.actionPerformed(new ActionEvent(this, 0, ""));
+    }
+
+    private void unfreezeDisks()
+    {
+        getDisks().forEach(disk -> disk.unfreeze());
+    }
+
+    private void setUnfreezeTimer()
+    {
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run()
+            {
+                unfreeze = true;
+            }
+        }, randInt(0, freezeInterval) * 1000);
+    }
+
+    private void setFreezeTimer()
+    {
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run()
+            {
+                freezeDisks();
+                setUnfreezeTimer();
+            }
+        }, randInt(0, timerInterval) * 1000);
+    }
+
+    private void setFreeze()
+    {
+        if (!unfreeze && isFreeze)
+            return;
+
+        if (isFreeze)
+            unfreezeDisks();
+
+        setFreezeTimer();
+    }
+
     public void Place(Field field)
     {
         commandManager.Execute(new PutCommand(currentPlayer, field));
+
         nextPlayer();
+        setFreeze();
     }
 
     public void Undo()
@@ -173,5 +273,10 @@ public class Game implements Serializable
     public Player getPlayerTwo()
     {
         return playerTwo;
+    }
+
+    public int randInt(int min, int max)
+    {
+        return rand.nextInt((max - min) + 1) + min;
     }
 }

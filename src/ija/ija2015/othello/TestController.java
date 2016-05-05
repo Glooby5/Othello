@@ -3,9 +3,7 @@ package ija.ija2015.othello;
 import ija.ija2015.othello.board.Board;
 import ija.ija2015.othello.game.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -65,11 +63,10 @@ public class TestController
             else
             {
                 br.readLine();
-                ((AI)game.currentPlayer()).Turn();
+                game.Place(((AI)game.currentPlayer()).Turn());
             }
 
             System.out.println("\n" + game.getBoard());
-            game.nextPlayer();
         }
 
         System.out.println("Winner: " + game.getWinner());
@@ -88,7 +85,7 @@ public class TestController
 
         if (coords.equals("u"))
         {
-            game.undo();
+            game.Undo();
             return;
         }
 
@@ -107,6 +104,6 @@ public class TestController
             System.err.println("Invalid Format!");
         }
 
-        game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
+        game.Place(game.getBoard().getField(inX, inY));
     }
 }

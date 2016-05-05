@@ -24,8 +24,6 @@ public class Player
     protected String name;
     protected Queue<Disk> disks;
     protected Board board;
-    protected Stack<ArrayList<Disk>> turns;
-    protected Stack<Field> added;
 
     /**
      *
@@ -39,14 +37,13 @@ public class Player
         this.isHuman = isHuman;
         this.name = name;
         this.disks = new ArrayDeque<>();
-        this.turns = new Stack<>();
-        this.added = new Stack<>();
     }
 
     public Player(boolean isWhite)
     {
         this(isWhite, true, "Unknown");
     }
+
 
     public boolean isWhite()
     {
@@ -63,26 +60,28 @@ public class Player
         return name;
     }
 
-    /**
-     * Test, zda je možné vložit nový kámen hráče na dané pole.
-     *
-     * @param field
-     * @return
-     */
-    public boolean canPutDisk(Field field)
-    {
-        return field.canPutDisk(this.disks.peek());
-    }
-
-    /**
-     * Test prázdnosti sady kamenů, které má hráč k dispozici.
-     *
-     * @return
-     */
     public boolean emptyPool()
     {
         return this.disks.isEmpty();
     }
+
+    public int getScore()
+    {
+        int score = 0;
+
+        for (int row = 1; row <= board.getSize(); row++)
+        {
+            for (int col = 1; col <= board.getSize(); col++)
+            {
+                if (!board.getField(row, col).isEmpty() && board.getField(row, col).getDisk().isWhite() == isWhite())
+                {
+                    score++;
+                }
+            }
+        }
+        return score;
+    }
+
 
     /**
      * Inicializace hráče v rámci hrací desky.
@@ -128,21 +127,15 @@ public class Player
         return turns;
     }
 
-    public int getScore()
+    /**
+     * Test, zda je možné vložit nový kámen hráče na dané pole.
+     *
+     * @param field
+     * @return
+     */
+    public boolean canPutDisk(Field field)
     {
-        int score = 0;
-
-        for (int row = 1; row <= board.getSize(); row++)
-        {
-            for (int col = 1; col <= board.getSize(); col++)
-            {
-                if (!board.getField(row, col).isEmpty() && board.getField(row, col).getDisk().isWhite() == isWhite())
-                {
-                    score++;
-                }
-            }
-        }
-        return score;
+        return field.canPutDisk(this.disks.peek());
     }
 
     /**
@@ -162,31 +155,15 @@ public class Player
         if (!field.putDisk(this.disks.peek()))
             return false;
 
-
-        this.turns.push(((ReversiField)field).getTurnedDisks());
-        this.added.push(field);
         this.disks.poll();
 
         return true;
     }
 
+    @Override
     public String toString()
     {
         return this.isWhite ? "W" : "B";
-    }
-
-    public boolean undo()
-    {
-        if (this.turns.size() == 0)
-        {
-            return false;
-        }
-
-        this.turns.pop().forEach(x -> x.turn());
-        this.disks.add(this.added.peek().getDisk());
-        this.added.pop().removeDisk();
-
-        return true;
     }
 
 }

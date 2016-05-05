@@ -8,6 +8,7 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.*;
 
 import java.io.Console;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,11 @@ import java.util.List;
  *
  * @author XKADER13, XZEMAN53
  */
-public class Game {
-
+public class Game implements Serializable
+{
     private final Board board;
+    private CommandManager commandManager;
+
     private Player playerOne;
     private Player playerTwo;
     private Player currentPlayer;
@@ -29,12 +32,22 @@ public class Game {
     public Game(Board board)
     {
         this.board = board;
+        this.commandManager = new CommandManager();
+    }
+
+    /**
+     * Vrátí hrací desku.
+     * @return Hrací deska
+     */
+    public Board getBoard()
+    {
+        return this.board;
     }
 
     /**
      * Přidá hráče a současně vyvolá jeho inicializaci.
-     * @param player
-     * @return
+     * @param player Hráč
+     * @return Pokud šlo přidat
      */
     public boolean addPlayer(Player player)
     {
@@ -59,7 +72,7 @@ public class Game {
 
     /**
      * Vrátí aktuálního hráče, který je na tahu.
-     * @return
+     * @return Aktuální hráč
      */
     public Player currentPlayer()
     {
@@ -67,17 +80,8 @@ public class Game {
     }
 
     /**
-     * Vrátí hrací desku.
-     * @return
-     */
-    public Board getBoard()
-    {
-        return this.board;
-    }
-
-    /**
      * Změní aktuálního hráče.
-     * @return
+     * @return Další hráč
      */
     public Player nextPlayer()
     {
@@ -93,7 +97,10 @@ public class Game {
         return this.currentPlayer;
     }
 
-
+    /**
+     * Ověří zda již není konec hry
+     * @return True pokud je konec hry, jinak False
+     */
     public boolean isEnd()
     {
         if (currentPlayer().PossibleTurns().size() == 0)
@@ -108,6 +115,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * Zjistí vítěze
+     * @return vítěz
+     */
     public Player getWinner()
     {
         int first = currentPlayer().getScore();
@@ -137,9 +148,15 @@ public class Game {
         return score;
     }
 
-    public void undo()
+    public void Place(Field field)
     {
-        currentPlayer().undo();
-        nextPlayer().undo();
+        commandManager.Execute(new PutCommand(currentPlayer, field));
+        nextPlayer();
+    }
+
+    public void Undo()
+    {
+        commandManager.Undo();
+        commandManager.Undo();
     }
 }

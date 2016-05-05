@@ -1,8 +1,8 @@
 # TODO
 - [x] aplikace bude implementovat základní pravidla hry, která jsou uvedena zde
-- [ ] rozšíření pravidel
+- [x] rozšíření pravidel
   - - [x] možnost zvolit velikost hrací desky (6, 8, 10, 12); implicitní hodnota je 8
-  - - [ ] možnost zvolit "zamrzání" kamenů
+  - - [x] možnost zvolit "zamrzání" kamenů
   - pokud je zvoleno, nastaví se časové intervaly I a B (v sekundách) a počet kamenů C
   - po uplynutí náhodně vygenerované doby z časového intervalu (0,I) se zablokuje C náhodně vybraných kamenů na náhodně vygenerovanou dobu z intervalu (0,B)
   - kameny se odblokují po uplynutí doby blokování, ale až po ukončení aktuálního tahu

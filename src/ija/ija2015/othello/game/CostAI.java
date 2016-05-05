@@ -20,13 +20,13 @@ public class CostAI extends Player implements AI
     }
 
     @Override
-    public boolean Turn()
+    public Field Turn()
     {
         ArrayList<int[]> possible = PossibleTurns();
 
         if (possible.size() == 0)
         {
-            return false;
+            return null;
         }
 
         int max = 0;
@@ -81,6 +81,8 @@ public class CostAI extends Player implements AI
         }
 
         System.out.println("max: " + max);
-        return putDisk(board.getField(possible.get(maxIndex)[0], possible.get(maxIndex)[1]));
+
+        return board.getField(possible.get(maxIndex)[0], possible.get(maxIndex)[1]);
+        //return putDisk(board.getField(possible.get(maxIndex)[0], possible.get(maxIndex)[1]));
     }
 }

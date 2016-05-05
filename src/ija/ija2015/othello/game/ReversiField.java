@@ -19,11 +19,23 @@ import java.util.Queue;
 public class ReversiField extends AbstractField {
 
     private ArrayList<Disk> turnedDisks;
+    private int x = 0;
+    private int y = 0;
 
     public ReversiField(int row, int col)
     {
         super(row, col);
         turnedDisks = new ArrayList<Disk>();
+    }
+
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
     }
 
     @Override

@@ -52,19 +52,25 @@ public class GameController {
     }
 
     public void RunGame() {
-        ReversiRules rules = new ReversiRules(BoardSize);
+        int size = BoardSize;
+
+        ReversiRules rules = new ReversiRules(size);
 
         Board board = new Board(rules);
         game = new ija.ija2015.othello.game.Game(board);
 
-        Player p1 = new Player(true, true, "Honza");
-        //Player p1 = new CostAI(true);
+        //Player p1 = new Player(true, true, "Honza");
+        Player p1 = new CostAI(true);
         //Player p2 = new Player(false);
         Player p2 = new RandomAI(false);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
-        DrawBoard();
+
+
+        //game.setDiskFreezing(10, 8, 5);
+        //game.setFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
+/*
         while (!game.isEnd())
         {
             System.out.println("SCORE: " + game.getScore()[0] + " : " + game.getScore()[1]);
@@ -86,19 +92,16 @@ public class GameController {
 
             if (game.currentPlayer().isHuman())
             {
-                try{
-                br.readLine();}catch(Exception e){}
             }
             else
             {
-
-                ((AI)game.currentPlayer()).Turn();
+                game.Place(((AI)game.currentPlayer()).Turn());
             }
 
             System.out.println("\n" + game.getBoard());
-            DrawBoard();
-            game.nextPlayer();
         }
+*/
+        DrawBoard();
     }
 
     public void SetEvents() {
@@ -109,13 +112,20 @@ public class GameController {
             {
                 final int r = row;
                 final int c = col;
-
                 Fields[row][col].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        game.currentPlayer().putDisk(game.getBoard().getField(r+1, c+1));
+                        System.out.println("Do Something Clicked on disk.");
                     }
                 });
+                /*Fields[row][col].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        System.out.println("Do Something Clicked on disk.");
+                        game.Place(game.getBoard().getField(r+1, c+1));
+                        DrawBoard();
+                    }
+                });*/
             }
         }
     }
@@ -123,20 +133,51 @@ public class GameController {
     public void DrawBoard() {
         BoardPanel.removeAll();
         Board board = game.getBoard();
-        for (int row = 0; row < board.getSize(); row++)
+        for (int col = 0; col < board.getSize(); col++)
         {
-            for (int col = 0; col < board.getSize(); col++)
+            for (int row = 0; row < board.getSize(); row++)
             {
-                ImagePanel field = Fields[row][col];
-                if(!board.getField(row+1, col+1).isEmpty()) {
-                    if (board.getField(row + 1, col + 1).getDisk().isWhite())
+                final int r = row;
+                final int c = col;
+
+                if(!board.getField(col+1, row+1).isEmpty()) {
+                    if (board.getField(col + 1, row + 1).getDisk().isWhite())
                         panel.DrawDisk(row, col, panel.getWhiteDisk());
                     else
                         panel.DrawDisk(row, col, panel.getBlackDisk());
                 } else
+                {
                     panel.DrawDisk(row, col, panel.getEmptyField());
+                }
+
+                Fields[row][col].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                        game.Place(game.getBoard().getField(c+1, r+1));
+
+                        System.out.println("\n" + game.getBoard());
+
+                        DrawBoard();
+                        if(!game.currentPlayer().isHuman()) {
+                            game.Place(((AI)game.currentPlayer()).Turn());
+                            System.out.println("\n" + game.getBoard());
+                            DrawBoard();
+                        }
+                    }
+                });
             }
         }
+
+        /*ArrayList<int[]> possibleTurns = game.currentPlayer().PossibleTurns();
+
+        for (int[] turn : possibleTurns)
+        {
+            int row = turn[1];
+            int col = turn[0];
+            panel.DrawDisk(row, col, panel.getHelpField());
+        }
+       */
         panel.updateUI();
     }
 

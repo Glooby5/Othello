@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +32,7 @@ public class Game extends javax.swing.JPanel {
     private BufferedImage WhiteDisk;
     private BufferedImage BlackDisk;
     private BufferedImage EmptyField;
+    private BufferedImage HelpField;
 
     private JPanel StatsPanel;
     private JPanel BoardPanel;
@@ -66,6 +69,7 @@ public class Game extends javax.swing.JPanel {
         dsize = field.getPreferredSize();
         field = new ImagePanel(image);
         field.setBounds(2 + (row*50) + insets.left, 2 + (col*50) + insets.top, dsize.width, dsize.height);
+        Fields[row][col] = field;
         BoardPanel.add(field);
     }
 
@@ -79,6 +83,10 @@ public class Game extends javax.swing.JPanel {
 
     public BufferedImage getEmptyField() {
         return EmptyField;
+    }
+
+    public BufferedImage getHelpField() {
+        return HelpField;
     }
 
     public JPanel getBoardPanel() {
@@ -163,6 +171,7 @@ public class Game extends javax.swing.JPanel {
             WhiteDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "white.png"));
             BlackDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "black.png"));
             EmptyField = ImageIO.read(this.getClass().getResource(ImagesPath + "empty.png"));
+            HelpField = ImageIO.read(this.getClass().getResource(ImagesPath + "help.png"));
         }
         catch(IOException ioe) {
             System.out.println("Chyba při načítání obrázků z resources.");

@@ -44,6 +44,11 @@ public class Game implements Serializable
         return this.board;
     }
 
+    public CommandManager getCommandManager()
+    {
+        return commandManager;
+    }
+
     /**
      * Přidá hráče a současně vyvolá jeho inicializaci.
      * @param player Hráč
@@ -158,5 +163,15 @@ public class Game implements Serializable
     {
         commandManager.Undo();
         commandManager.Undo();
+    }
+
+    public Player getPlayerOne()
+    {
+        return playerOne;
+    }
+
+    public Player getPlayerTwo()
+    {
+        return playerTwo;
     }
 }

@@ -13,9 +13,7 @@ public class RandomAI extends Player implements AI
 {
     public RandomAI(boolean isWhite)
     {
-        super(isWhite);
-        isHuman = false;
-        name = "RandomAI";
+        super(isWhite, false, "RandomAI");
     }
 
     @Override

@@ -4,7 +4,9 @@ import ija.ija2015.othello.board.Board;
 import ija.ija2015.othello.game.*;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,11 +31,24 @@ public class TestController
 
         Player p1 = new Player(true, true, "Honza");
         //Player p1 = new CostAI(true);
-        //Player p2 = new Player(false);
-        Player p2 = new RandomAI(false);
+        Player p2 = new Player(false);
+        //Player p2 = new RandomAI(false);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
+
+        String coords = br.readLine();
+        System.out.println(game.getBoard().toString());
+        if (coords.startsWith("l"))
+        {
+            GameLoader loader = new GameLoader();
+
+            try
+            {
+                game = loader.Load(coords.substring(2));
+            }
+            catch (Exception ex) { }
+        }
 
         System.out.println(game.getBoard().toString());
 
@@ -87,6 +102,19 @@ public class TestController
         {
             game.Undo();
             return;
+        }
+        else if (coords.equals("s"))
+        {
+            GameSaver saver = new GameSaver(game);
+
+            try
+            {
+                saver.Save("game.game");
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         try

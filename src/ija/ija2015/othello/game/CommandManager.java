@@ -33,4 +33,9 @@ public class CommandManager
         command.getField().removeDisk();
         command.getTurnedDisks().forEach(disk -> disk.turn());
     }
+
+    public Stack<PutCommand> getCommands()
+    {
+        return commands;
+    }
 }

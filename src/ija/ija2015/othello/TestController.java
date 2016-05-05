@@ -51,7 +51,8 @@ public class TestController
 
         System.out.println(game.getBoard().toString());
 
-        game.addFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
+        game.setDiskFreezing(10, 8, 5);
+        game.setFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
 
         while (!game.isEnd())
         {

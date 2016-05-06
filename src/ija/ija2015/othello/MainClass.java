@@ -11,6 +11,6 @@ public class MainClass
     {
         GameController control = new GameController(12);
         control.Show();
-        control.RunGame();
+        control.RunGame(GameController.PLAYER_USER, GameController.PLAYER_USER);
     }
 }

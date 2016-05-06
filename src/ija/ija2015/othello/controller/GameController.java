@@ -16,9 +16,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by XZEMAN53 on 4. 5. 2016.
+ * Created by XZEMAN53
  */
 public class GameController {
+
+    public static final int PLAYER_USER = 0;
+    public static final int PLAYER_ALG1 = 1;
+    public static final int PLAYER_ALG2 = 2;
 
     private ImagePanel[][] Fields;
     private JPanel BoardPanel;
@@ -40,28 +44,36 @@ public class GameController {
         initButtons();
     }
 
-    public void RunGame() {
-        int size = BoardSize;
-
-        ReversiRules rules = new ReversiRules(size);
-
-        Board board = new Board(rules);
-        game = new ija.ija2015.othello.game.Game(board);
-
-        Player p1 = new Player(true, true, "Honza");
-        //Player p1 = new CostAI(true);
-        //Player p2 = new Player(false);
-        Player p2 = new RandomAI(false);
-
-        game.addPlayer(p1);
-        game.addPlayer(p2);
-
+    public void RunGame(int Player1, int Player2) {
+        prepareGame(Player1, Player2);
         drawBoard();
     }
 
     public void Show()
     {
         Frame.setVisible(true);
+    }
+
+    private void prepareGame(int Player1, int Player2) {
+        ReversiRules rules = new ReversiRules(BoardSize);
+        Board board = new Board(rules);
+        game = new ija.ija2015.othello.game.Game(board);
+        addPlayer(Player1, true);
+        addPlayer(Player2, false);
+    }
+
+    private void addPlayer(int playerType, boolean isWhite) {
+        switch (playerType) {
+            case PLAYER_USER:
+                game.addPlayer(new Player(isWhite, true, ""));
+                break;
+            case PLAYER_ALG1:
+                game.addPlayer(new RandomAI(isWhite));
+                break;
+            case PLAYER_ALG2:
+                game.addPlayer(new CostAI(isWhite));
+                break;
+        }
     }
 
     private void initButtons()

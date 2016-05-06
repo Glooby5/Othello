@@ -15,6 +15,7 @@ public class FrmGame extends JFrame {
     // difined constants
     private static String DefaultFont = "Segoe UI";
     private static String ImagesPath = "resources/";
+    private static int FIELDSIZE = 50;
 
     // Resource images
     private BufferedImage Board;
@@ -44,10 +45,10 @@ public class FrmGame extends JFrame {
     private JLabel ScoreP2;
 
     // Board size
-    private int Boardsize;
+    private int BoardSize;
 
     public FrmGame(int size) {
-        this.Boardsize = size;
+        this.BoardSize = size;
         loadImages();
         initFields();
         initFrame();
@@ -112,10 +113,10 @@ public class FrmGame extends JFrame {
     }
 
     private void initFields() {
-        Fields = new ImagePanel[Boardsize][Boardsize];
+        Fields = new ImagePanel[BoardSize][BoardSize];
 
-        for (int r = 0; r < Boardsize; r++)
-            for (int c = 0; c < Boardsize; c++)
+        for (int r = 0; r < BoardSize; r++)
+            for (int c = 0; c < BoardSize; c++)
                 Fields[r][c] = new ImagePanel(WhiteDisk);
     }
 
@@ -124,7 +125,7 @@ public class FrmGame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
-        setSize(605,729);
+        setSize(BoardSize*FIELDSIZE + 5,BoardSize*FIELDSIZE + 129);
         setLocation(dim.width/2-this.getSize().width/2,
                     dim.height/2-this.getSize().height/2);
     }
@@ -132,7 +133,7 @@ public class FrmGame extends JFrame {
     private void initStatistics() {
         StatsPanel = new JPanel(null);
         StatsPanel.setBackground(new Color(104, 86, 68));
-        StatsPanel.setPreferredSize(new Dimension(600, 50));
+        StatsPanel.setPreferredSize(new Dimension(BoardSize*FIELDSIZE, 50));
 
         WhitePlayer = new ImagePanel(WhiteDisk);
         StatsPanel.add(WhitePlayer);
@@ -152,7 +153,7 @@ public class FrmGame extends JFrame {
         ActPlayerPanel = new JPanel(new BorderLayout());
         ActPlayerPanel.setOpaque(false);
         ActPlayerPanel.setPreferredSize(new Dimension(47,47));
-        ActPlayerPanel.setBounds(277, 2,
+        ActPlayerPanel.setBounds((BoardSize*FIELDSIZE / 2) - 22, 2,
                 ActPlayerPanel.getPreferredSize().width,
                 ActPlayerPanel.getPreferredSize().height);
         StatsPanel.add(ActPlayerPanel);
@@ -165,13 +166,13 @@ public class FrmGame extends JFrame {
         ScoreP2.setFont(new Font(DefaultFont, 0, 24));
         ScoreP2.setForeground(Color.WHITE);
         StatsPanel.add(ScoreP2);
-        ScoreP2.setBounds(515, 6,
+        ScoreP2.setBounds(BoardSize*FIELDSIZE - 85, 6,
                 ScoreP2.getPreferredSize().width,
                 ScoreP2.getPreferredSize().height);
 
         BlackPlayer = new ImagePanel(BlackDisk);
         StatsPanel.add(BlackPlayer);
-        BlackPlayer.setBounds(545, 2,
+        BlackPlayer.setBounds(BoardSize*FIELDSIZE - 55, 2,
                 BlackPlayer.getPreferredSize().width,
                 BlackPlayer.getPreferredSize().height);
 
@@ -187,17 +188,17 @@ public class FrmGame extends JFrame {
     private void initSettings() {
         SettingsPanel = new JPanel(null);
         SettingsPanel.setBackground(new java.awt.Color(104, 86, 68));
-        SettingsPanel.setPreferredSize(new Dimension(600, 50));
+        SettingsPanel.setPreferredSize(new Dimension(BoardSize*FIELDSIZE, 50));
 
         BtnClose = new JButton("Ukončit hru");
         SettingsPanel.add(BtnClose);
-        BtnClose.setBounds(490, 12,
+        BtnClose.setBounds(BoardSize*FIELDSIZE - 110, 12,
                 BtnClose.getPreferredSize().width,
                 BtnClose.getPreferredSize().height);
 
         BtnSave = new JButton("Uložit hru");
         SettingsPanel.add(BtnSave);
-        BtnSave.setBounds(395, 12,
+        BtnSave.setBounds(BoardSize*FIELDSIZE - 205, 12,
                 BtnSave.getPreferredSize().width,
                 BtnSave.getPreferredSize().height);
 

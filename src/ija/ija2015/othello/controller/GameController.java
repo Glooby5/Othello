@@ -36,13 +36,10 @@ public class GameController {
     public GameController(int size)
     {
         BoardSize = size;
-        Frame = new FrmGame(BoardSize);
-        BoardPanel = Frame.getBoardPanel();
-        BtnClose = Frame.getBtnClose();
-        BtnSave = Frame.getBtnSave();
-        Fields = Frame.getFields();
+        getComponents();
         initButtons();
     }
+
 
     public void RunGame(int Player1, int Player2) {
         prepareGame(Player1, Player2);
@@ -52,6 +49,15 @@ public class GameController {
     public void Show()
     {
         Frame.setVisible(true);
+    }
+
+
+    private void getComponents() {
+        Frame = new FrmGame(BoardSize);
+        BoardPanel = Frame.getBoardPanel();
+        BtnClose = Frame.getBtnClose();
+        BtnSave = Frame.getBtnSave();
+        Fields = Frame.getFields();
     }
 
     private void prepareGame(int Player1, int Player2) {
@@ -82,6 +88,16 @@ public class GameController {
             BtnClose.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Frame.dispose();
+                }
+            });
+        }
+
+        if(BtnSave instanceof JButton) {
+            BtnClose.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    GameSaver saver = new GameSaver(game);
+                    try  { saver.Save("game.game"); }
+                    catch (Exception ex) { }
                 }
             });
         }

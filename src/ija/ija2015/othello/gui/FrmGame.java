@@ -13,7 +13,7 @@ import static java.awt.Toolkit.getDefaultToolkit;
 public class FrmGame extends JFrame {
 
     // difined constants
-    private static String DefaultFont = "Segoe UI";
+    private static String DefaultFont = "Segoe UI Light";
     private static String ImagesPath = "resources/";
     private static int FIELDSIZE = 50;
 

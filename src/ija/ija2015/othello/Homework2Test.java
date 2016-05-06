@@ -58,7 +58,7 @@ public class Homework2Test {
      */
     @Test
     public void testGame() {
-        System.out.println("Game");
+        System.out.println("FrmGame");
         int size = 8;
         
         ReversiRules rules = new ReversiRules(size);

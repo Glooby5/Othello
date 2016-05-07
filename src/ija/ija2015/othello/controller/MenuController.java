@@ -125,26 +125,26 @@ public class MenuController implements MediaDisposer.Disposable {
                 public void actionPerformed(ActionEvent e) {
                     String FileName = "";
                     JFileChooser c = new JFileChooser();
+                    c.setDialogTitle("Vyberte souboru s uloženou hrou");
+                    c.setApproveButtonText("Načíst");
                     int rVal = c.showOpenDialog(Frame);
 
-                    if (rVal == JFileChooser.APPROVE_OPTION)
+                    if (rVal == JFileChooser.APPROVE_OPTION) {
                         FileName = c.getCurrentDirectory().toString() + "\\" + c.getSelectedFile().getName();
 
-                    Game game = null;
+                        Game game = null;
 
-                    try
-                    {
-                        game = new GameLoader().Load(FileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        JOptionPane.showMessageDialog(null, "Chyba při načítání hry.", "Chyba", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                        try {
+                            game = new GameLoader().Load(FileName);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Chyba při načítání hry ze souboru.", "Chyba", JOptionPane.INFORMATION_MESSAGE);
+                        }
 
-                    if(game != null) {
-                        Games.add(new GameController(game));
-                        Games.get(Games.size() - 1).Show();
-                        Games.get(Games.size() - 1).runGame();
+                        if (game != null) {
+                            Games.add(new GameController(game));
+                            Games.get(Games.size() - 1).Show();
+                            Games.get(Games.size() - 1).runGame();
+                        }
                     }
                 }
             });

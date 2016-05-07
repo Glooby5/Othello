@@ -175,7 +175,7 @@ public class FrmMenu extends JFrame {
 
         LPlayer1Type = new JLabel();
         LPlayer1Type.setFont(new java.awt.Font(DefaultFont, 0, 24));
-        LPlayer1Type.setText("1. hráč");
+        LPlayer1Type.setText("Bílý hráč");
         LPlayer1Type.setBounds(20, HEIGHT - 200,
                 LPlayer1Type.getPreferredSize().width,
                 LPlayer1Type.getPreferredSize().height);
@@ -191,7 +191,7 @@ public class FrmMenu extends JFrame {
 
         LPlayer2Type = new JLabel();
         LPlayer2Type.setFont(new java.awt.Font(DefaultFont, 0, 24));
-        LPlayer2Type.setText("2. hráč");
+        LPlayer2Type.setText("Černý hráč");
         LPlayer2Type.setBounds(20, HEIGHT - 160,
                 LPlayer2Type.getPreferredSize().width,
                 LPlayer2Type.getPreferredSize().height);

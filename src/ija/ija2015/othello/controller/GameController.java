@@ -123,6 +123,8 @@ public class GameController implements MediaDisposer.Disposable {
                 public void actionPerformed(ActionEvent e) {
                     String FileName = "";
                     JFileChooser c = new JFileChooser();
+                    c.setApproveButtonText("Uložit");
+                    c.setDialogTitle("Uložení aktuální hry");
                     int rVal = c.showOpenDialog(Frame);
                     if (rVal == JFileChooser.APPROVE_OPTION)
                         FileName = c.getCurrentDirectory().toString() + "\\" + c.getSelectedFile().getName();

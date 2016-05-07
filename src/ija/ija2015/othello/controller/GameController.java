@@ -77,6 +77,9 @@ public class GameController implements MediaDisposer.Disposable {
     private void setFreeze(int fc, int fi, int fb) {
         if(game != null) {
             game.setDiskFreezing(fi, fb, fc);
+            game.setFreezeListener((evt) -> {
+                drawBoard();
+            });
         }
     }
 
@@ -148,20 +151,12 @@ public class GameController implements MediaDisposer.Disposable {
                     return;
 
                 if (game.currentPlayer().PossibleTurns().size() == 0) {
-                    game.nextPlayer();
+                        game.nextPlayer();
 
                     drawBoard();
 
                     if(!game.currentPlayer().isHuman())
-                        AISleepTimer.schedule(new TimerTask() {
-
-                            @Override
-                            public void run() {
-                                game.Place(((AI) game.currentPlayer()).Turn());
-                                drawBoard();
-                            }
-
-                        }, (1 * 1000));
+                        AiTurn();
                 }
                 else {
                     if(game.currentPlayer().isHuman())
@@ -170,18 +165,31 @@ public class GameController implements MediaDisposer.Disposable {
                     drawBoard();
 
                     if(!game.currentPlayer().isHuman())
-                        AISleepTimer.schedule(new TimerTask() {
-
-                            @Override
-                            public void run() {
-                                game.Place(((AI) game.currentPlayer()).Turn());
-                                drawBoard();
-                            }
-
-                        }, (5 * 100));
+                        AiTurn();
                 }
             }
         });
+    }
+
+    private void AiTurn() {
+        if (game.currentPlayer().PossibleTurns().size() == 0) {
+            game.nextPlayer();
+
+            drawBoard();
+
+            if(!game.currentPlayer().isHuman())
+                AiTurn();
+        } else {
+            AISleepTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    game.Place(((AI) game.currentPlayer()).Turn());
+                    drawBoard();
+                }
+
+            }, (1 * 1000));
+        }
     }
 
     private void drawBoard() {
@@ -213,20 +221,15 @@ public class GameController implements MediaDisposer.Disposable {
             }
         }
 
-        if(bothAi) {
-            AISleepTimer.schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-                    game.Place(((AI) game.currentPlayer()).Turn());
-                    drawBoard();
-                }
-
-            }, (1 * 1000));
-        }
-
         Frame.setScore(game.getScore()[0], game.getScore()[1]);
         Frame.changePlayer(game.currentPlayer().isWhite() ? Frame.getWhiteDisk(): Frame.getBlackDisk());
+
+        if(game.isEnd()) {
+            JOptionPane.showMessageDialog(null,
+                    "Vyhrál " + ((game.getWinner().isWhite()) ? "bílý" : "černý") + " hráč.",
+                    "Konec hry", JOptionPane.INFORMATION_MESSAGE);
+        } else if(bothAi)
+            AiTurn();
     }
 
     @Override

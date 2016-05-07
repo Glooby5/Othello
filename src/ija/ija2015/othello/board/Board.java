@@ -28,6 +28,10 @@ public class Board {
         setDirections(rules.getSize());
     }
 
+    /**
+     * Přidá všechny hrací pole
+     * @param size
+     */
     private void addFields(int size)
     {
         for (int i = 1; i < size; i++)
@@ -48,6 +52,11 @@ public class Board {
         }
     }
 
+    /**
+     * Nastaví hraícm polí jejich okolí
+     *
+     * @param size velikost
+     */
     private void setDirections(int size)
     {
         for (int i = 1; i <= size; i++) // řádky

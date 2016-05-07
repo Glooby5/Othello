@@ -3,22 +3,28 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.Board;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by kader on 05.05.2016.
+ * Třída pro načítání uložených her.
  */
 public class GameLoader
 {
     private Game game;
     private BufferedReader reader;
 
+    /**
+     * Načte uloženou hru.
+     *
+     * @param filename Cesta k souboru s uloženou hrou
+     * @return Načtená hra typu Game
+     * @throws Exception
+     */
     public Game Load(String filename) throws Exception
     {
-        OpenToWrite(filename);
+        OpenToRead(filename);
 
         ReversiRules rules = new ReversiRules(Integer.parseInt(reader.readLine()));
         Board board = new Board(rules);
@@ -33,6 +39,11 @@ public class GameLoader
         return game;
     }
 
+    /**
+     * Načte nastavení zamrzání.
+     *
+     * @throws Exception
+     */
     private void LoadFreezing() throws Exception
     {
         String input = reader.readLine();
@@ -52,6 +63,11 @@ public class GameLoader
         game.setDiskFreezing(timeInterval, freezeInterval, countInterval);
     }
 
+    /**
+     * Načte provedené tahy hráčů.
+     *
+     * @throws Exception
+     */
     private void LoadTurns() throws Exception
     {
         String input = reader.readLine();
@@ -68,6 +84,12 @@ public class GameLoader
         }
     }
 
+    /**
+     * Načte hráče ve hře.
+     *
+     * @param color Barva W/B který hráč se má načíst.
+     * @throws Exception
+     */
     private void LoadPlayer(String color) throws Exception
     {
         String line = reader.readLine();
@@ -90,6 +112,12 @@ public class GameLoader
         createPLayer(color, data[1]);
     }
 
+    /**
+     * Vytvoří instanci hráče.
+     *
+     * @param color
+     * @param s
+     */
     private void createPLayer(String color, String s)
     {
         Player player;
@@ -110,7 +138,13 @@ public class GameLoader
         game.addPlayer(player);
     }
 
-    private void OpenToWrite(String filename) throws Exception
+    /**
+     * Otevře soubor pro čtení.
+     *
+     * @param filename Jméno souboru
+     * @throws Exception
+     */
+    private void OpenToRead(String filename) throws Exception
     {
         Path path = Paths.get(filename);
         reader = Files.newBufferedReader(path);

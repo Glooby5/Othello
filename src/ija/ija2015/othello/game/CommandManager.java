@@ -3,7 +3,7 @@ package ija.ija2015.othello.game;
 import java.util.Stack;
 
 /**
- * Created by kader on 05.05.2016.
+ * Zajišťuje režii pro tahy hráčů. Má kontrolu nad tím jaké tahy byly provedeny.
  */
 public class CommandManager
 {
@@ -14,6 +14,11 @@ public class CommandManager
         this.commands = new Stack<>();
     }
 
+    /**
+     * Vykoná zadaný příkaz a vloží jej na zásobník.
+     * @param command Příkaz, který se má provést
+     * @return True pokud to bylo možné, jinak False
+     */
     public boolean Execute(PutCommand command)
     {
         boolean success = command.Execute();
@@ -23,6 +28,9 @@ public class CommandManager
         return success;
     }
 
+    /**
+     * Vrátí zpět předchozí tah.
+     */
     public void Undo()
     {
         if (commands.isEmpty())

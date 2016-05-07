@@ -11,8 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 
 /**
- *
- * @author XKADER13, XZEMAN53
+ * Repezentuje celou hru.
  */
 public class Game implements Serializable
 {
@@ -34,6 +33,11 @@ public class Game implements Serializable
         this.commandManager = new CommandManager();
     }
 
+    /**
+     * Umístí kémen na zadané pole.
+     *
+     * @param field Pole
+     */
     public void Place(Field field)
     {
         if (!commandManager.Execute(new PutCommand(currentPlayer, field)))
@@ -45,6 +49,9 @@ public class Game implements Serializable
             diskFreezing.SetFreeze();
     }
 
+    /**
+     * Vrátí hráčův tah.
+     */
     public void Undo()
     {
         if (diskFreezing != null)
@@ -226,6 +233,11 @@ public class Game implements Serializable
         return this.board;
     }
 
+    /**
+     * Vrací manažer zahraných tahů.
+     *
+     * @return CommandManager
+     */
     public CommandManager getCommandManager()
     {
         return commandManager;

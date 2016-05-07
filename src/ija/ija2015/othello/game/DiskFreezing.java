@@ -10,6 +10,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Zapouzdřuje funkčnost zamrzání kamenů.
+ */
 public class DiskFreezing
 {
     private Game game;
@@ -26,6 +29,13 @@ public class DiskFreezing
     private Timer freezeTimer;
     private Timer unfreezeTimer;
 
+    /**
+     * Konstruktor pro třídu DiskFreezing
+     * @param game Hra pro kterou se zamrzání nastaví
+     * @param timerInterval Interval v kterém dojde k zamrznutí
+     * @param freezeInterval Interval na jak dlouho dojde k zamrznutí
+     * @param freezeCount Interval kolik disků může zamrznout
+     */
     public DiskFreezing(Game game, int timerInterval, int freezeInterval, int freezeCount)
     {
         this.game = game;
@@ -41,6 +51,9 @@ public class DiskFreezing
 
     //region Public
 
+    /**
+     * Nastaví zamrznutí a odmrazí kameny které zůstaly zamrznuté.
+     */
     public void SetFreeze()
     {
         if (!unfreeze && isFreeze)
@@ -52,6 +65,9 @@ public class DiskFreezing
         setFreezeTimer();
     }
 
+    /**
+     * Odmrazí všechny kameny.
+     */
     public void UnfreezeAll()
     {
         getDisks().forEach(disk -> disk.unfreeze());
@@ -61,6 +77,9 @@ public class DiskFreezing
 
     //region Private
 
+    /**
+     * Provede zmražení podle nastavených parametrů.
+     */
     private void freezeDisks()
     {
         ArrayList<Disk> disks = getDisks();
@@ -83,6 +102,9 @@ public class DiskFreezing
             freezeListener.actionPerformed(new ActionEvent(this, 0, ""));
     }
 
+    /**
+     * Nastaví timer, který nastaví pokyn k odmražení kamenů.
+     */
     private void setUnfreezeTimer()
     {
         unfreezeTimer.cancel();
@@ -98,6 +120,9 @@ public class DiskFreezing
         }, randInt(0, freezeInterval) * 1000);
     }
 
+    /**
+     * Nastaví timer, který po dané době zmrazí kameny.
+     */
     private void setFreezeTimer()
     {
         freezeTimer.cancel();
@@ -114,6 +139,10 @@ public class DiskFreezing
         }, randInt(0, timerInterval) * 1000);
     }
 
+    /**
+     * Načte a vrátí všechny disky na hracím poli.
+     * @return Všechny disky
+     */
     private ArrayList<Disk> getDisks()
     {
         ArrayList<Disk> disks = new ArrayList<>();

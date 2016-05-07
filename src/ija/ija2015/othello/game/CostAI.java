@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 /**
- * Created by kader on 04.05.2016.
+ * Algortimus, který vybere tah, který otočí nejvíce soupeřových kamenů.
  */
 public class CostAI extends Player implements AI
 {
@@ -16,9 +16,14 @@ public class CostAI extends Player implements AI
     {
         super(isWhite);
         isHuman = false;
-        name = "RandomAI";
+        name = "CostAI";
     }
 
+    /**
+     * Určí na jaké pole, chce algoritmus zahrát.
+     *
+     * @return Pole kam chce hrát.
+     */
     @Override
     public Field Turn()
     {
@@ -83,6 +88,5 @@ public class CostAI extends Player implements AI
         System.out.println("max: " + max);
 
         return board.getField(possible.get(maxIndex)[0], possible.get(maxIndex)[1]);
-        //return putDisk(board.getField(possible.get(maxIndex)[0], possible.get(maxIndex)[1]));
     }
 }

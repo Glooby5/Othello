@@ -14,8 +14,7 @@ import java.util.Stack;
 import java.util.function.Function;
 
 /**
- *
- * @author XKADER13, XZEMAN53
+ * Reprezentuje hráč v rámci hry.
  */
 public class Player
 {
@@ -26,8 +25,9 @@ public class Player
     protected Board board;
 
     /**
+     * Konstruktor s nastavením jestli je to člověk a jménem.
      *
-     * @param isWhite Bílá hráč?
+     * @param isWhite Bílý hráč?
      * @param isHuman Člověk?
      * @param name Jméno
      */
@@ -39,6 +39,11 @@ public class Player
         this.disks = new ArrayDeque<>();
     }
 
+    /**
+     * Jednoduchý konstruktor
+     *
+     * @param isWhite Bílý hráč?
+     */
     public Player(boolean isWhite)
     {
         this(isWhite, true, "Unknown");
@@ -65,6 +70,11 @@ public class Player
         return this.disks.isEmpty();
     }
 
+    /**
+     * Spočítá skóre daného hráče.
+     *
+     * @return Skóre
+     */
     public int getScore()
     {
         int score = 0;
@@ -109,6 +119,11 @@ public class Player
         this.board = board;
     }
 
+    /**
+     * Zjistí možné tahy hráče.
+     *
+     * @return ArrayList<int[row][col]>
+     */
     public ArrayList<int[]> PossibleTurns()
     {
         ArrayList<int[]> turns = new ArrayList<int[]>();

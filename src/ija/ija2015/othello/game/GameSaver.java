@@ -9,18 +9,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by kader on 05.05.2016.
+ * Třída pro uložení rozehrané hry.
  */
 public class GameSaver
 {
     private Game game;
     private BufferedWriter writer;
 
+    /**
+     * Konstruktor
+     * @param game Rozehraná hra
+     */
     public GameSaver(Game game)
     {
         this.game = game;
     }
 
+    /**
+     * Uloží rozehranou hru do zadaného souboru.
+     *
+     * @param filename Název souboru
+     * @throws Exception
+     */
     public void Save(String filename) throws Exception
     {
         OpenToWrite(filename);
@@ -36,6 +46,11 @@ public class GameSaver
         writer.close();
     }
 
+    /**
+     * Přidá provedené tahy hráčů.
+     *
+     * @throws IOException
+     */
     private void AddCommands() throws IOException
     {
         for (PutCommand command : game.getCommandManager().getCommands())
@@ -47,12 +62,23 @@ public class GameSaver
         writer.newLine();
     }
 
+    /**
+     * Otevře soubor pro zápis.
+     *
+     * @param filename Název souboru
+     * @throws Exception
+     */
     private void OpenToWrite(String filename) throws Exception
     {
         Path path = Paths.get(filename);
         writer = Files.newBufferedWriter(path);
     }
 
+    /**
+     * Přidá hráče
+     *
+     * @throws Exception
+     */
     private void AddPlayers() throws Exception
     {
         if (!game.currentPlayer().isWhite())
@@ -67,6 +93,11 @@ public class GameSaver
         writer.newLine();
     }
 
+    /**
+     * Přidá nastavení zamrzání kamenů.
+     *
+     * @throws IOException
+     */
     private void AddFreezing() throws IOException
     {
         DiskFreezing freezing = game.getDiskFreezing();

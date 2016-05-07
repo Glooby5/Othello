@@ -9,6 +9,9 @@ import ija.ija2015.othello.gui.FrmGame;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by XZEMAN53
@@ -23,22 +26,35 @@ public class GameController implements MediaDisposer.Disposable {
     private JPanel BoardPanel;
     private JButton BtnClose;
     private JButton BtnSave;
+    private JButton BtnUndo;
+    private JButton BtnSkip;
     private FrmGame Frame;
 
+    private Timer AISleepTimer;
     private int BoardSize;
     private Game game;
 
-    public GameController(int size)
+    public GameController(int size, int Player1, int Player2)
     {
         BoardSize = size;
         getComponents();
-        initButtons();
+        initListeners();
+        prepareGame(Player1, Player2);
     }
 
-
-    public void RunGame(int Player1, int Player2) {
+    public GameController(int size, int Player1, int Player2, int fc, int fi, int fb)
+    {
+        BoardSize = size;
+        getComponents();
+        initListeners();
         prepareGame(Player1, Player2);
-        drawBoard();
+        setFreeze(fc, fi, fb);
+    }
+
+    public GameController(Game loadedGame) {
+        game = loadedGame;
+        getComponents();
+        initListeners();
     }
 
     public void Show()
@@ -46,21 +62,35 @@ public class GameController implements MediaDisposer.Disposable {
         Frame.setVisible(true);
     }
 
+    public void runGame() {
+        drawBoard();
+    }
 
     private void getComponents() {
         Frame = new FrmGame(BoardSize);
         BoardPanel = Frame.getBoardPanel();
         BtnClose = Frame.getBtnClose();
         BtnSave = Frame.getBtnSave();
+        BtnUndo = Frame.getBtnUndo();
+        BtnSkip = Frame.getBtnSkip();
         Fields = Frame.getFields();
+        AISleepTimer = new Timer();
+    }
+
+    private void setFreeze(int fc, int fi, int fb) {
+        if(game != null) {
+            game.setDiskFreezing(fi, fb, fc);
+        }
     }
 
     private void prepareGame(int Player1, int Player2) {
-        ReversiRules rules = new ReversiRules(BoardSize);
-        Board board = new Board(rules);
-        game = new ija.ija2015.othello.game.Game(board);
-        addPlayer(Player1, true);
-        addPlayer(Player2, false);
+        if(game == null) {
+            ReversiRules rules = new ReversiRules(BoardSize);
+            Board board = new Board(rules);
+            game = new ija.ija2015.othello.game.Game(board);
+            addPlayer(Player1, true);
+            addPlayer(Player2, false);
+        }
     }
 
     private void addPlayer(int playerType, boolean isWhite) {
@@ -77,7 +107,7 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
-    private void initButtons()
+    private void initListeners()
     {
         if(BtnClose instanceof JButton){
             BtnClose.addActionListener(new ActionListener() {
@@ -88,11 +118,52 @@ public class GameController implements MediaDisposer.Disposable {
         }
 
         if(BtnSave instanceof JButton) {
-            BtnClose.addActionListener(new ActionListener() {
+            BtnSave.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    GameSaver saver = new GameSaver(game);
-                    try  { saver.Save("game.game"); }
+                    String FileName = "";
+                    JFileChooser c = new JFileChooser();
+                    int rVal = c.showOpenDialog(Frame);
+                    if (rVal == JFileChooser.APPROVE_OPTION)
+                        FileName = c.getCurrentDirectory().toString() + "\\" + c.getSelectedFile().getName();
+                    try  { new GameSaver(game).Save(FileName); }
                     catch (Exception ex) { }
+                }
+            });
+        }
+        if(BtnUndo instanceof JButton) {
+        BtnUndo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                game.Undo();
+                drawBoard();
+            }
+        });
+    }
+
+
+        if(BtnSkip instanceof JButton) {
+            BtnSkip.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(!game.playerOne().isHuman() && !game.playerTwo().isHuman())
+                        return;
+
+                    if (game.isEnd())
+                        return;
+
+                    game.nextPlayer();
+
+                    drawBoard();
+
+                    if(!game.currentPlayer().isHuman()) {
+                        AISleepTimer.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                game.Place(((AI) game.currentPlayer()).Turn());
+                                drawBoard();
+                            }
+
+                        }, (1 * 1000));
+                    }
                 }
             });
         }
@@ -112,12 +183,23 @@ public class GameController implements MediaDisposer.Disposable {
                 else {
                     if(game.currentPlayer().isHuman())
                         game.Place(game.getBoard().getField(col+1, row+1));
-                    else
-                        game.Place(((AI)game.currentPlayer()).Turn());;
+
+                    drawBoard();
+
+                    if(!game.currentPlayer().isHuman())
+                        AISleepTimer.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                game.Place(((AI) game.currentPlayer()).Turn());
+                                drawBoard();
+                            }
+
+                        }, (1 * 1000));
                 }
 
-                System.out.println("\n" + game.getBoard());
-                drawBoard();
+                //System.out.println("\n" + game.getBoard());
+
             }
         });
     }
@@ -126,22 +208,41 @@ public class GameController implements MediaDisposer.Disposable {
         Board board = game.getBoard();
         BoardPanel.removeAll();
 
-        for (int[] turn : game.currentPlayer().PossibleTurns())
-            Frame.drawDisk(turn[1]-1, turn[0]-1, Frame.getHelpField());
+        boolean bothAi = (!game.playerOne().isHuman()) && (!game.playerTwo().isHuman());
+
+        if(game.currentPlayer().isHuman()) {
+            for (int[] turn : game.currentPlayer().PossibleTurns())
+                Frame.drawDisk(turn[1] - 1, turn[0] - 1, Frame.getHelpField());
+        }
 
         for (int col = 0; col < board.getSize(); col++)
         {
             for (int row = 0; row < board.getSize(); row++)
             {
                 if(!board.getField(col+1, row+1).isEmpty()) {
-                    if (board.getField(col + 1, row + 1).getDisk().isWhite())
+                    if (board.getField(col + 1, row + 1).getDisk().isFrozen())
+                        Frame.drawDisk(row, col, Frame.getFreezedDisk());
+                    else if (board.getField(col + 1, row + 1).getDisk().isWhite())
                         Frame.drawDisk(row, col, Frame.getWhiteDisk());
                     else
                         Frame.drawDisk(row, col, Frame.getBlackDisk());
                 } else
                     Frame.drawDisk(row, col, Frame.getEmptyField());
-                setFieldEvent(row, col);
+                if(!bothAi)
+                    setFieldEvent(row, col);
             }
+        }
+
+        if(bothAi) {
+            AISleepTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    game.Place(((AI) game.currentPlayer()).Turn());
+                    drawBoard();
+                }
+
+            }, (1 * 1000));
         }
 
         Frame.setScore(game.getScore()[0], game.getScore()[1]);

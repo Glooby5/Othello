@@ -1,6 +1,8 @@
 package ija.ija2015.othello.controller;
 
 import com.sun.media.jfxmediaimpl.MediaDisposer;
+import ija.ija2015.othello.game.Game;
+import ija.ija2015.othello.game.GameLoader;
 import ija.ija2015.othello.gui.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +22,10 @@ public class MenuController implements MediaDisposer.Disposable {
     private JSpinner SBoardSize;
     private JButton BtnRunGame;
     private JButton BtnLoadGame;
+    private JSpinner SFreezeTimer;
+    private JSpinner SFreezeInterval;
+    private JSpinner SFreezeCount;
+    private JCheckBox ChbFreeze;
 
     private ArrayList<GameController> Games;
 
@@ -52,6 +58,10 @@ public class MenuController implements MediaDisposer.Disposable {
         SPlayer1Type = Frame.getSPlayer1Type();
         SPlayer2Type = Frame.getSPlayer2Type();
         SBoardSize = Frame.getSBoardSize();
+        SFreezeTimer = Frame.getSFreezeTimer();
+        SFreezeInterval = Frame.getSFreezeInterval();
+        SFreezeCount = Frame.getSFreezeCount();
+        ChbFreeze = Frame.getChbFreeze();
 
         BtnRunGame = Frame.getBtnRunGame();
         BtnLoadGame = Frame.getBtnLoadGame();
@@ -92,17 +102,38 @@ public class MenuController implements MediaDisposer.Disposable {
         if(BtnRunGame instanceof JButton){
             BtnRunGame.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    Games.add(new GameController(getBoardSize()));
-                    Games.get(Games.size()-1).RunGame(getPlayer1Type(), getPlayer2Type());
+                    if(ChbFreeze.isSelected()) {
+                        Games.add(new GameController(getBoardSize(), getPlayer1Type(), getPlayer2Type(),
+                                (Integer)SFreezeCount.getValue(), (Integer)SFreezeTimer.getValue(),
+                                (Integer)SFreezeInterval.getValue()));
+                    } else {
+                        Games.add(new GameController(getBoardSize(), getPlayer1Type(), getPlayer2Type()));
+                    }
+
                     Games.get(Games.size()-1).Show();
+                    Games.get(Games.size()-1).runGame();
                 }
             });
         }
 
         if(BtnLoadGame instanceof JButton) {
+
             BtnLoadGame.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
-                    /*todo*/
+                    String FileName = "";
+                    JFileChooser c = new JFileChooser();
+                    int rVal = c.showOpenDialog(Frame);
+                    if (rVal == JFileChooser.APPROVE_OPTION)
+                        FileName = c.getCurrentDirectory().toString() + "\\" + c.getSelectedFile().getName();
+                    Game game = null;
+                    try { game = new GameLoader().Load(FileName); }
+                    catch (Exception ex) { JOptionPane.showMessageDialog(null, "Chyba při načítání hry.", "Chyba", JOptionPane.INFORMATION_MESSAGE); }
+                    if(game != null) {
+                        Games.add(new GameController(game));
+                        Games.get(Games.size() - 1).Show();
+                        Games.get(Games.size() - 1).runGame();
+                    }
                 }
             });
         }

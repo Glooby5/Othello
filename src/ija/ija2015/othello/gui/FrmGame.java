@@ -21,6 +21,7 @@ public class FrmGame extends JFrame {
     private BufferedImage Board;
     private BufferedImage WhiteDisk;
     private BufferedImage BlackDisk;
+    private BufferedImage FreezedDisk;
     private BufferedImage EmptyField;
     private BufferedImage HelpField;
 
@@ -36,6 +37,8 @@ public class FrmGame extends JFrame {
     // Settings
     private JButton BtnClose;
     private JButton BtnSave;
+    private JButton BtnSkip;
+    private JButton BtnUndo;
 
     //Statistics
     private ImagePanel ActualPlayer;
@@ -55,6 +58,10 @@ public class FrmGame extends JFrame {
         initStatistics();
         initBoard();
         initSettings();
+    }
+
+    public BufferedImage getFreezedDisk() {
+        return FreezedDisk;
     }
 
     public BufferedImage getWhiteDisk() {
@@ -83,6 +90,14 @@ public class FrmGame extends JFrame {
 
     public JButton getBtnClose() {
         return BtnClose;
+    }
+
+    public JButton getBtnSkip() {
+        return BtnSkip;
+    }
+
+    public JButton getBtnUndo() {
+        return BtnUndo;
     }
 
     public ImagePanel[][] getFields() {
@@ -190,15 +205,27 @@ public class FrmGame extends JFrame {
         SettingsPanel.setBackground(new java.awt.Color(104, 86, 68));
         SettingsPanel.setPreferredSize(new Dimension(BoardSize*FIELDSIZE, 50));
 
-        BtnClose = new JButton("Ukončit hru");
+        BtnUndo = new JButton("Zpět");
+        SettingsPanel.add(BtnUndo);
+        BtnUndo.setBounds(5, 12,
+                BtnUndo.getPreferredSize().width,
+                BtnUndo.getPreferredSize().height);
+
+        BtnSkip = new JButton("Přeskoč");
+        SettingsPanel.add(BtnSkip);
+        BtnSkip.setBounds(BtnUndo.getPreferredSize().width + 10, 12,
+                BtnSkip.getPreferredSize().width,
+                BtnSkip.getPreferredSize().height);
+
+        BtnClose = new JButton("Konec");
         SettingsPanel.add(BtnClose);
-        BtnClose.setBounds(BoardSize*FIELDSIZE - 110, 12,
+        BtnClose.setBounds(BoardSize*FIELDSIZE - BtnClose.getPreferredSize().width-10, 12,
                 BtnClose.getPreferredSize().width,
                 BtnClose.getPreferredSize().height);
 
-        BtnSave = new JButton("Uložit hru");
+        BtnSave = new JButton("Ulož");
         SettingsPanel.add(BtnSave);
-        BtnSave.setBounds(BoardSize*FIELDSIZE - 205, 12,
+        BtnSave.setBounds(BoardSize*FIELDSIZE - BtnClose.getPreferredSize().width - BtnSave.getPreferredSize().width - 15, 12,
                 BtnSave.getPreferredSize().width,
                 BtnSave.getPreferredSize().height);
 
@@ -210,6 +237,7 @@ public class FrmGame extends JFrame {
             Board = ImageIO.read(this.getClass().getResource(ImagesPath + "board.png"));
             WhiteDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "white.png"));
             BlackDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "black.png"));
+            FreezedDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "freeze.png"));
             EmptyField = ImageIO.read(this.getClass().getResource(ImagesPath + "empty.png"));
             HelpField = ImageIO.read(this.getClass().getResource(ImagesPath + "help.png"));
         }

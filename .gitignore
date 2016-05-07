@@ -1,6 +1,7 @@
 /.idea
 /out
 /dest-client
+dest-client
 Othello.iml
 # Windows image file caches
 Thumbs.db

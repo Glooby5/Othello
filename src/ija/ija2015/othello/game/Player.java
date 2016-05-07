@@ -122,7 +122,7 @@ public class Player
     /**
      * Zjistí možné tahy hráče.
      *
-     * @return ArrayList<int[row][col]>
+     * @return ArrayList int[row][col]
      */
     public ArrayList<int[]> PossibleTurns()
     {

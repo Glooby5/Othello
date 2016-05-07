@@ -124,6 +124,16 @@ public class Game implements Serializable
         return this.currentPlayer;
     }
 
+    public Player playerOne()
+    {
+        return this.playerOne;
+    }
+
+    public Player playerTwo()
+    {
+        return this.playerTwo;
+    }
+
     /**
      * Změní aktuálního hráče.
      * @return Další hráč

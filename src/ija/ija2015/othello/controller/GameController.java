@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by XZEMAN53
@@ -133,7 +134,9 @@ public class GameController implements MediaDisposer.Disposable {
         if(BtnUndo instanceof JButton) {
         BtnUndo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AISleepTimer.cancel();
+                if(!game.playerOne().isHuman() && !game.playerTwo().isHuman())
+                    return;
+                
                 game.Undo();
                 drawBoard();
             }

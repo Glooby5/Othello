@@ -9,10 +9,8 @@ import ija.ija2015.othello.gui.FrmGame;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by XZEMAN53
@@ -28,7 +26,6 @@ public class GameController implements MediaDisposer.Disposable {
     private JButton BtnClose;
     private JButton BtnSave;
     private JButton BtnUndo;
-    private JButton BtnSkip;
     private FrmGame Frame;
 
     private Timer AISleepTimer;
@@ -73,7 +70,6 @@ public class GameController implements MediaDisposer.Disposable {
         BtnClose = Frame.getBtnClose();
         BtnSave = Frame.getBtnSave();
         BtnUndo = Frame.getBtnUndo();
-        BtnSkip = Frame.getBtnSkip();
         Fields = Frame.getFields();
         AISleepTimer = new Timer();
     }
@@ -132,42 +128,13 @@ public class GameController implements MediaDisposer.Disposable {
             });
         }
         if(BtnUndo instanceof JButton) {
-        BtnUndo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(!game.playerOne().isHuman() && !game.playerTwo().isHuman())
-                    return;
-                
-                game.Undo();
-                drawBoard();
-            }
-        });
-    }
-
-
-        if(BtnSkip instanceof JButton) {
-            BtnSkip.addActionListener(new ActionListener() {
+            BtnUndo.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if(!game.playerOne().isHuman() && !game.playerTwo().isHuman())
                         return;
 
-                    if (game.isEnd())
-                        return;
-
-                    game.nextPlayer();
-
+                    game.Undo();
                     drawBoard();
-
-                    if(!game.currentPlayer().isHuman()) {
-                        AISleepTimer.schedule(new TimerTask() {
-
-                            @Override
-                            public void run() {
-                                game.Place(((AI) game.currentPlayer()).Turn());
-                                drawBoard();
-                            }
-
-                        }, (1 * 1000));
-                    }
                 }
             });
         }
@@ -182,7 +149,19 @@ public class GameController implements MediaDisposer.Disposable {
 
                 if (game.currentPlayer().PossibleTurns().size() == 0) {
                     game.nextPlayer();
-                    System.out.println("PASS jak hovado\n");
+
+                    drawBoard();
+
+                    if(!game.currentPlayer().isHuman())
+                        AISleepTimer.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                game.Place(((AI) game.currentPlayer()).Turn());
+                                drawBoard();
+                            }
+
+                        }, (1 * 1000));
                 }
                 else {
                     if(game.currentPlayer().isHuman())
@@ -201,9 +180,6 @@ public class GameController implements MediaDisposer.Disposable {
 
                         }, (1 * 1000));
                 }
-
-                //System.out.println("\n" + game.getBoard());
-
             }
         });
     }

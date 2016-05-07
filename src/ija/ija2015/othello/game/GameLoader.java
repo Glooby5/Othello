@@ -60,7 +60,10 @@ public class GameLoader
         String[] data = line.split(":");
 
         if (data.length != 2)
-            throw new Exception();
+        {
+            game.addPlayer(new Player(color == "W" ? true : false));
+            return;
+        }
 
         if (!data[0].equals(color))
             throw new Exception();

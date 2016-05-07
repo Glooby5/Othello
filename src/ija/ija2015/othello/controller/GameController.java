@@ -93,7 +93,7 @@ public class GameController implements MediaDisposer.Disposable {
     private void addPlayer(int playerType, boolean isWhite) {
         switch (playerType) {
             case PLAYER_USER:
-                game.addPlayer(new Player(isWhite, true, ""));
+                game.addPlayer(new Player(isWhite));
                 break;
             case PLAYER_ALG1:
                 game.addPlayer(new RandomAI(isWhite));
@@ -178,7 +178,7 @@ public class GameController implements MediaDisposer.Disposable {
                                 drawBoard();
                             }
 
-                        }, (1 * 1000));
+                        }, (5 * 100));
                 }
             }
         });

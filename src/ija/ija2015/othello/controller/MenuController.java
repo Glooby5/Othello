@@ -99,9 +99,11 @@ public class MenuController implements MediaDisposer.Disposable {
 
     private void initListeners()
     {
-        if(BtnRunGame instanceof JButton){
+        if(BtnRunGame instanceof JButton) {
             BtnRunGame.addActionListener(new ActionListener() {
+
                 public void actionPerformed(ActionEvent e) {
+
                     if(ChbFreeze.isSelected()) {
                         Games.add(new GameController(getBoardSize(), getPlayer1Type(), getPlayer2Type(),
                                 (Integer)SFreezeCount.getValue(), (Integer)SFreezeTimer.getValue(),
@@ -124,11 +126,21 @@ public class MenuController implements MediaDisposer.Disposable {
                     String FileName = "";
                     JFileChooser c = new JFileChooser();
                     int rVal = c.showOpenDialog(Frame);
+
                     if (rVal == JFileChooser.APPROVE_OPTION)
                         FileName = c.getCurrentDirectory().toString() + "\\" + c.getSelectedFile().getName();
+
                     Game game = null;
-                    try { game = new GameLoader().Load(FileName); }
-                    catch (Exception ex) { JOptionPane.showMessageDialog(null, "Chyba při načítání hry.", "Chyba", JOptionPane.INFORMATION_MESSAGE); }
+
+                    try
+                    {
+                        game = new GameLoader().Load(FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        JOptionPane.showMessageDialog(null, "Chyba při načítání hry.", "Chyba", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
                     if(game != null) {
                         Games.add(new GameController(game));
                         Games.get(Games.size() - 1).Show();

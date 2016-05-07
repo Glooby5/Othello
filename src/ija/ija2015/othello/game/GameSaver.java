@@ -32,7 +32,7 @@ public class GameSaver
         for (PutCommand command : game.getCommandManager().getCommands())
         {
             ReversiField field = (ReversiField)command.getField();
-            writer.write(field.getRow() + ":" + field.getCol());
+            writer.write(field.getRow() + ":" + field.getCol() + "|");
         }
 
         writer.newLine();

@@ -65,12 +65,13 @@ public class DiskFreezing
     {
         ArrayList<Disk> disks = getDisks();
 
-        freezeCount = randInt(0, freezeCount);
-        freezeCount = freezeCount > disks.size() ? disks.size() : freezeCount;
 
-        for (int i = 0; i < freezeCount; i++)
+        int toFreeze = randInt(0, freezeCount);
+        toFreeze = toFreeze > disks.size() ? disks.size() : toFreeze;
+
+        for (int i = 0; i < toFreeze; i++)
         {
-            disks.get(i).freeze();
+            disks.get(randInt(0, disks.size() - 1)).freeze();
         }
 
         unfreeze = false;

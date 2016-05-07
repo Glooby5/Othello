@@ -50,6 +50,7 @@ public class GameController implements MediaDisposer.Disposable {
     }
 
     public GameController(Game loadedGame) {
+        BoardSize = loadedGame.getBoard().getSize();
         game = loadedGame;
         getComponents();
         initListeners();

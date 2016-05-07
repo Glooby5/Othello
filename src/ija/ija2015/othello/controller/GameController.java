@@ -1,24 +1,19 @@
 package ija.ija2015.othello.controller;
 
+
 import ija.ija2015.othello.board.Board;
 import ija.ija2015.othello.game.*;
 import ija.ija2015.othello.gui.*;
 import ija.ija2015.othello.gui.FrmGame;
 
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.awt.event.*;
 
 /**
  * Created by XZEMAN53
  */
-public class GameController {
+public class GameController implements MediaDisposer.Disposable {
 
     public static final int PLAYER_USER = 0;
     public static final int PLAYER_ALG1 = 1;
@@ -111,20 +106,18 @@ public class GameController {
                     return;
 
                 if (game.currentPlayer().PossibleTurns().size() == 0) {
-                    System.out.println("PASS jak hovado\n");
                     game.nextPlayer();
+                    System.out.println("PASS jak hovado\n");
                 }
                 else {
-                    game.Place(game.getBoard().getField(col+1, row+1));
-                    System.out.println("\n" + game.getBoard());
-                    drawBoard();
+                    if(game.currentPlayer().isHuman())
+                        game.Place(game.getBoard().getField(col+1, row+1));
+                    else
+                        game.Place(((AI)game.currentPlayer()).Turn());;
                 }
-                if(!game.currentPlayer().isHuman()) {
-                    game.Place(((AI
-                            )game.currentPlayer()).Turn());
-                    System.out.println("\n" + game.getBoard());
-                    drawBoard();
-                }
+
+                System.out.println("\n" + game.getBoard());
+                drawBoard();
             }
         });
     }
@@ -153,5 +146,10 @@ public class GameController {
 
         Frame.setScore(game.getScore()[0], game.getScore()[1]);
         Frame.changePlayer(game.currentPlayer().isWhite() ? Frame.getWhiteDisk(): Frame.getBlackDisk());
+    }
+
+    @Override
+    public void dispose() {
+        Frame.dispatchEvent(new WindowEvent(Frame, WindowEvent.WINDOW_CLOSING));
     }
 }

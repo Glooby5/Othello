@@ -8,9 +8,5 @@ public class MainClass
     {
         MenuController menu = new MenuController();
         menu.Show();
-        /*
-        GameController control = new GameController(12);
-        control.Show();
-        control.RunGame(GameController.PLAYER_USER, GameController.PLAYER_USER);*/
     }
 }

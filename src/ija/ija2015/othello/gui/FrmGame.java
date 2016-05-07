@@ -122,7 +122,7 @@ public class FrmGame extends JFrame {
 
     private void initFrame() {
         Dimension dim = getDefaultToolkit().getScreenSize();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
         setSize(BoardSize*FIELDSIZE + 5,BoardSize*FIELDSIZE + 129);

@@ -1,29 +1,32 @@
 package ija.ija2015.othello.controller;
 
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import ija.ija2015.othello.gui.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static ija.ija2015.othello.controller.GameController.PLAYER_ALG2;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 /**
  * Created by XZEMAN53
  */
-public class MenuController {
+public class MenuController implements MediaDisposer.Disposable {
 
     private FrmMenu Frame;
-
     private JSpinner SPlayer1Type;
     private JSpinner SPlayer2Type;
     private JSpinner SBoardSize;
     private JButton BtnRunGame;
     private JButton BtnLoadGame;
 
+    private ArrayList<GameController> Games;
+
     public MenuController()
     {
         getComponents();
-        initButtons();
+        initListeners();
     }
 
     public int getBoardSize() {
@@ -52,6 +55,8 @@ public class MenuController {
 
         BtnRunGame = Frame.getBtnRunGame();
         BtnLoadGame = Frame.getBtnLoadGame();
+
+        Games = new ArrayList();
     }
 
     private int getPlayerType(String value) {
@@ -82,12 +87,14 @@ public class MenuController {
         }
     }
 
-    private void initButtons()
+    private void initListeners()
     {
         if(BtnRunGame instanceof JButton){
             BtnRunGame.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    /*todo*/
+                    Games.add(new GameController(getBoardSize()));
+                    Games.get(Games.size()-1).RunGame(getPlayer1Type(), getPlayer2Type());
+                    Games.get(Games.size()-1).Show();
                 }
             });
         }
@@ -99,5 +106,18 @@ public class MenuController {
                 }
             });
         }
+
+        Frame.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                dispose();
+            }
+        });
+    }
+
+    @Override
+    public void dispose() {
+        for(GameController game : Games)
+          game.dispose();
     }
 }

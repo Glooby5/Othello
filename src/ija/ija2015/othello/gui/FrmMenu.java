@@ -152,7 +152,7 @@ public class FrmMenu extends JFrame {
 
 
         IPLogoImage = new ImagePanel(Logo);
-        IPLogoImage.setBounds(WIDTH/2-IPLogoImage.getPreferredSize().width/2, 150-IPLogoImage.getPreferredSize().width/2,
+        IPLogoImage.setBounds(0, 145-IPLogoImage.getPreferredSize().height/2,
                 IPLogoImage.getPreferredSize().width,
                 IPLogoImage.getPreferredSize().height);
         MainPanel.add(IPLogoImage);

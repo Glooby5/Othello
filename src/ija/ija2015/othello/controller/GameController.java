@@ -191,7 +191,7 @@ public class GameController implements MediaDisposer.Disposable {
                     drawBoard();
                 }
 
-            }, (1 * 1000));
+            }, (500));
         }
     }
 

@@ -28,6 +28,7 @@ public class FrmMenu extends JFrame {
     // Resource images
     private BufferedImage Logo;
     private BufferedImage MenuImg;
+    private BufferedImage FrameIcon;
 
     // Panels
     private JPanel MainPanel;
@@ -105,6 +106,8 @@ public class FrmMenu extends JFrame {
     private void initFrame() {
         Dimension dim = getDefaultToolkit().getScreenSize();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("OTHELLO - MENU");
+        setIconImage(FrameIcon);
         setLayout(new BorderLayout());
         setResizable(false);
         setSize(WIDTH + 5,HEIGHT + 29);
@@ -287,6 +290,7 @@ public class FrmMenu extends JFrame {
         try {
             Logo = ImageIO.read(this.getClass().getResource(ImagesPath + "logo.png"));
             MenuImg = ImageIO.read(this.getClass().getResource(ImagesPath + "menu.png"));
+            FrameIcon = ImageIO.read(this.getClass().getResource(ImagesPath + "icon.png"));
         }
         catch(IOException ioe) {
             System.out.println("Chyba při načítání obrázků z resources.");

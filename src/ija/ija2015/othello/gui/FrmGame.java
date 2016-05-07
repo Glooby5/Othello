@@ -24,6 +24,7 @@ public class FrmGame extends JFrame {
     private BufferedImage FreezedDisk;
     private BufferedImage EmptyField;
     private BufferedImage HelpField;
+    private BufferedImage FrameIcon;
 
     // From panels
     private JPanel StatsPanel;
@@ -133,6 +134,8 @@ public class FrmGame extends JFrame {
     private void initFrame() {
         Dimension dim = getDefaultToolkit().getScreenSize();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("OTHELLO - HRA");
+        setIconImage(FrameIcon);
         setLayout(new BorderLayout());
         setResizable(false);
         setSize(BoardSize*FIELDSIZE + 5,BoardSize*FIELDSIZE + 129);
@@ -229,6 +232,7 @@ public class FrmGame extends JFrame {
             FreezedDisk = ImageIO.read(this.getClass().getResource(ImagesPath + "freeze.png"));
             EmptyField = ImageIO.read(this.getClass().getResource(ImagesPath + "empty.png"));
             HelpField = ImageIO.read(this.getClass().getResource(ImagesPath + "help.png"));
+            FrameIcon = ImageIO.read(this.getClass().getResource(ImagesPath + "icon.png"));
         }
         catch(IOException ioe) {
             System.out.println("Chyba při načítání obrázků z resources.");

@@ -37,7 +37,6 @@ public class FrmGame extends JFrame {
     // Settings
     private JButton BtnClose;
     private JButton BtnSave;
-    private JButton BtnSkip;
     private JButton BtnUndo;
 
     //Statistics
@@ -90,10 +89,6 @@ public class FrmGame extends JFrame {
 
     public JButton getBtnClose() {
         return BtnClose;
-    }
-
-    public JButton getBtnSkip() {
-        return BtnSkip;
     }
 
     public JButton getBtnUndo() {
@@ -210,12 +205,6 @@ public class FrmGame extends JFrame {
         BtnUndo.setBounds(5, 12,
                 BtnUndo.getPreferredSize().width,
                 BtnUndo.getPreferredSize().height);
-
-        BtnSkip = new JButton("Přeskoč");
-        SettingsPanel.add(BtnSkip);
-        BtnSkip.setBounds(BtnUndo.getPreferredSize().width + 10, 12,
-                BtnSkip.getPreferredSize().width,
-                BtnSkip.getPreferredSize().height);
 
         BtnClose = new JButton("Konec");
         SettingsPanel.add(BtnClose);

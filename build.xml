@@ -1,51 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
-	<property name="main.src.dir" value="src"/>
-	<property name="main.build.dir" value="dest-client"/>
-  	<property name="test.build.dir" value="dest-client"/>
-  	<property name="test.src.dir" value="src"/>
-	
-	<path id="classpath.test">
-  		<pathelement location="lib/junit-4.12.jar"/>
-   		<pathelement location="lib/hamcrest-core-1.3.jar"/>
-    		<pathelement location="${main.build.dir}"/>
-  	</path>
-        <target name="clean">
-                <delete dir="build"/>
-        </target>       
+<project name="othello" default="run">
 
-        <target name="compile">
-                <mkdir dir="build/classes"/>
-                <javac srcdir="./src" destdir="./build/classes" includeantruntime="false">
-                    <classpath>
-                        <pathelement path="./lib/junit-4.12.jar" />
-                        <pathelement path="./lib/hamcrest-core-1.3.jar" />
-                    </classpath>
-                </javac>
-               
-                <mkdir dir="dest-client"/>
-                <jar destfile="dest-client/othello-client.jar" basedir="build/classes"/>
-        </target>
+    <property name="lib" value="lib"/>
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="dest-client"/>
+	<property name="build.dir.classes" value="dest-client/classes"/>
+    <property name="jar.name" value="othello-client"/>
+    <property name="temp.dir" value="tmp"/>
 
-	<target name="test-compile" depends="compile">
-		<mkdir dir="${test.build.dir}"/>
-		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeantruntime="false">
-			<classpath refid="classpath.test"/>
-		</javac>
+	<path id="classpath.run">
+		<pathelement location="${lib}/junit-4.12.jar"/>
+		<pathelement location="${lib}/hamcrest-core-1.3.jar"/>
+        <pathelement location="${lib}/forms_rt.jar"/>
+        <pathelement location="${lib}/javac2.jar"/>
+        <pathelement location="${lib}/annotations.jar"/>
+        <pathelement location="${lib}/annotations-java8.jar"/>
+		<pathelement location="${build.dir}"/>
+	</path>
+
+    <target name="clean">
+            <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir.classes}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir.classes}" includeantruntime="false">
+            <classpath>
+                <pathelement location="${lib}/junit-4.12.jar"/>
+                <pathelement location="${lib}/hamcrest-core-1.3.jar"/>
+                <pathelement location="${lib}/forms_rt.jar"/>
+                <pathelement location="${lib}/javac2.jar"/>
+                <pathelement location="${lib}/annotations.jar"/>
+                <pathelement location="${lib}/annotations-java8.jar"/>
+            </classpath>
+        </javac>
+
+        <mkdir dir="${build.dir}"/>
+        <jar destfile="${build.dir}/${jar.name}.jar" basedir="${build.dir.classes}">
+            <fileset dir="${src.dir}">
+                <include name="ija/ija2015/othello/gui/resources/**/*.png" />
+            </fileset>
+            <manifest>
+                <attribute name="Main-Class" value="ija.ija2015.othello.MainClass"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<target name="run" depends="compile">
+        <mkdir dir="${temp.dir}"/>
+        <java jar="${build.dir}/${jar.name}.jar" fork="true"/>
 	</target>
-       
-        <target name="run" depends="test-compile">
-		<junit printsummary="yes" haltonfailure="no" fork="true">
-			<classpath>
-		          <path refid="classpath.test"/>
-			  <pathelement location="${test.build.dir}"/>
-			</classpath>
-			<formatter type="brief" usefile="false" />
-        		<batchtest>
-            			<fileset dir="${test.src.dir}" includes="**/*Homework2Test.java" />
-        		</batchtest>
-		</junit>
-        </target>
+    <!--
+    <target name="run" depends="test-compile">
+    <junit printsummary="yes" haltonfailure="no" fork="true">
+        <classpath>
+              <path refid="classpath.test"/>
+          <pathelement location="${test.build.dir}"/>
+        </classpath>
+        <formatter type="brief" usefile="false" />
+            <batchtest>
+                    <fileset dir="${test.src.dir}" includes="**/*Homework2Test.java" />
+            </batchtest>
+    </junit>
+    </target>
+    -->
        
        
 </project>

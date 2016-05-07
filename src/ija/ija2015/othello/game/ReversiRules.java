@@ -8,8 +8,7 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.*;
 
 /**
- *
- * @author XKADER13, XZEMAN53
+ * Reprezentuje herní pravidle hry Reversi
  */
 public class ReversiRules implements Rules {
 

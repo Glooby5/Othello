@@ -3,9 +3,7 @@ package ija.ija2015.othello;
 import ija.ija2015.othello.board.Board;
 import ija.ija2015.othello.game.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -31,13 +29,30 @@ public class TestController
 
         Player p1 = new Player(true, true, "Honza");
         //Player p1 = new CostAI(true);
-        //Player p2 = new Player(false);
-        Player p2 = new RandomAI(false);
+        Player p2 = new Player(false);
+        //Player p2 = new RandomAI(false);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
 
+        String coords = br.readLine();
         System.out.println(game.getBoard().toString());
+
+        if (coords.startsWith("l"))
+        {
+            GameLoader loader = new GameLoader();
+
+            try
+            {
+                game = loader.Load(coords.substring(2));
+            }
+            catch (Exception ex) { }
+        }
+
+        System.out.println(game.getBoard().toString());
+
+        game.setDiskFreezing(10, 8, 5);
+        game.setFreezeListener(evt -> { System.out.println("FREEZE"); System.out.println(game.getBoard().toString()); });
 
         while (!game.isEnd())
         {
@@ -65,11 +80,10 @@ public class TestController
             else
             {
                 br.readLine();
-                ((AI)game.currentPlayer()).Turn();
+                game.Place(((AI)game.currentPlayer()).Turn());
             }
 
             System.out.println("\n" + game.getBoard());
-            game.nextPlayer();
         }
 
         System.out.println("Winner: " + game.getWinner());
@@ -88,8 +102,21 @@ public class TestController
 
         if (coords.equals("u"))
         {
-            game.undo();
+            game.Undo();
             return;
+        }
+        else if (coords.equals("s"))
+        {
+            GameSaver saver = new GameSaver(game);
+
+            try
+            {
+                saver.Save("game.game");
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         try
@@ -107,6 +134,6 @@ public class TestController
             System.err.println("Invalid Format!");
         }
 
-        game.currentPlayer().putDisk(game.getBoard().getField(inX, inY));
+        game.Place(game.getBoard().getField(inX, inY));
     }
 }

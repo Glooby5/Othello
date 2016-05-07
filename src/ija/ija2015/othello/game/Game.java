@@ -7,17 +7,18 @@ package ija.ija2015.othello.game;
 
 import ija.ija2015.othello.board.*;
 
-import java.io.Console;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 /**
- *
- * @author XKADER13, XZEMAN53
+ * Repezentuje celou hru.
  */
-public class Game {
-
+public class Game implements Serializable
+{
     private final Board board;
+    private CommandManager commandManager;
+    private DiskFreezing diskFreezing;
+
     private Player playerOne;
     private Player playerTwo;
     private Player currentPlayer;
@@ -29,12 +30,85 @@ public class Game {
     public Game(Board board)
     {
         this.board = board;
+        this.commandManager = new CommandManager();
     }
 
     /**
+     * Umístí kémen na zadané pole.
+     *
+     * @param field Pole
+     */
+    public void Place(Field field)
+    {
+        if (!commandManager.Execute(new PutCommand(currentPlayer, field)))
+            return;
+
+        nextPlayer();
+
+        if (diskFreezing != null)
+            diskFreezing.SetFreeze();
+    }
+
+    /**
+     * Vrátí hráčův tah.
+     */
+    public void Undo()
+    {
+        if (diskFreezing != null)
+            diskFreezing.UnfreezeAll();
+
+        commandManager.Undo();
+        commandManager.Undo();
+
+        if (diskFreezing != null)
+            diskFreezing.SetFreeze();
+    }
+
+    //region DiskFreezing
+
+
+    public DiskFreezing getDiskFreezing()
+    {
+        return diskFreezing;
+    }
+
+    public void setDiskFreezing(DiskFreezing diskFreezing)
+    {
+        this.diskFreezing = diskFreezing;
+    }
+
+    /**
+     * Přidá možnost zamrzání kamenů
+     *
+     * @param timerInterval Maximální doba pro zamrznutí kamenů
+     * @param freezeInterval Doba zamrznutí kamenů
+     * @param freezeCount Počet kamenů k zamrznutí
+     */
+    public void setDiskFreezing(int timerInterval, int freezeInterval, int freezeCount)
+    {
+        this.diskFreezing = new DiskFreezing(this, timerInterval, freezeInterval, freezeCount);
+    }
+
+    /**
+     * Nastavení listeneru pro zachycení zamrznutí
+     *
+     * @param listener
+     */
+    public void setFreezeListener(ActionListener listener)
+    {
+        if (diskFreezing != null)
+            diskFreezing.setFreezeListener(listener);
+    }
+
+    //endregion
+
+    //region Player
+
+    /**
      * Přidá hráče a současně vyvolá jeho inicializaci.
-     * @param player
-     * @return
+     *
+     * @param player Hráč
+     * @return Pokud šlo přidat
      */
     public boolean addPlayer(Player player)
     {
@@ -59,25 +133,26 @@ public class Game {
 
     /**
      * Vrátí aktuálního hráče, který je na tahu.
-     * @return
+     * @return Aktuální hráč
      */
     public Player currentPlayer()
     {
         return this.currentPlayer;
     }
 
-    /**
-     * Vrátí hrací desku.
-     * @return
-     */
-    public Board getBoard()
+    public Player playerOne()
     {
-        return this.board;
+        return this.playerOne;
+    }
+
+    public Player playerTwo()
+    {
+        return this.playerTwo;
     }
 
     /**
      * Změní aktuálního hráče.
-     * @return
+     * @return Další hráč
      */
     public Player nextPlayer()
     {
@@ -93,21 +168,10 @@ public class Game {
         return this.currentPlayer;
     }
 
-
-    public boolean isEnd()
-    {
-        if (currentPlayer().PossibleTurns().size() == 0)
-        {
-            if (nextPlayer().PossibleTurns().size() == 0)
-            {
-                return true;
-            }
-            nextPlayer();
-        }
-
-        return false;
-    }
-
+    /**
+     * Zjistí vítěze
+     * @return vítěz
+     */
     public Player getWinner()
     {
         int first = currentPlayer().getScore();
@@ -127,6 +191,32 @@ public class Game {
         }
     }
 
+    //endregion
+
+    /**
+     * Ověří zda již není konec hry
+     *
+     * @return True pokud je konec hry, jinak False
+     */
+    public boolean isEnd()
+    {
+        if (currentPlayer().PossibleTurns().size() == 0)
+        {
+            if (nextPlayer().PossibleTurns().size() == 0)
+            {
+                return true;
+            }
+            nextPlayer();
+        }
+
+        return false;
+    }
+
+    /**
+     * Získání skóre
+     *
+     * @return Skóre hráčů. [0] - první hráč, [1] - druhý hráč
+     */
     public int[] getScore()
     {
         int[] score = new int[2];
@@ -137,9 +227,19 @@ public class Game {
         return score;
     }
 
-    public void undo()
+
+    public Board getBoard()
     {
-        currentPlayer().undo();
-        nextPlayer().undo();
+        return this.board;
+    }
+
+    /**
+     * Vrací manažer zahraných tahů.
+     *
+     * @return CommandManager
+     */
+    public CommandManager getCommandManager()
+    {
+        return commandManager;
     }
 }

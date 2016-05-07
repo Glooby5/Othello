@@ -21,7 +21,7 @@ public interface Field {
         U   //Nahoru (Up) od pole.}
     }
 
-
+    
     /**
      * Přidá sousední pole field v daném směru dirs.
      */

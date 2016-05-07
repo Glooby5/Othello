@@ -9,12 +9,10 @@ import ija.ija2015.othello.board.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 
 /**
- *
- * @author XKADER13, XZEMAN53
+ * Reprezentuje pole hry Reversi
  */
 public class ReversiField extends AbstractField {
 
@@ -39,13 +37,16 @@ public class ReversiField extends AbstractField {
             if (this.nextField(dir).isEmpty())
                 continue;
 
-            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite()  || nextField(dir).getDisk().isFrozen())
                 continue;
 
             next = this.nextField(dir).nextField(dir);
 
             while(!next.isEmpty())
             {
+                if (next.getDisk().isFrozen())
+                    break;
+
                 if (next.getDisk().isWhite() == disk.isWhite())
                     return true;
 
@@ -56,6 +57,12 @@ public class ReversiField extends AbstractField {
         return false;
     }
 
+    /**
+     * Provede otočení spoupeřových disků po vložení kamene.
+     *
+     * @param disk Disk který se vkládá
+     * @return True pokud se to povedlo
+     */
     public boolean turnDisks(Disk disk)
     {
         Queue<Disk> disks = new ArrayDeque<>();
@@ -73,7 +80,7 @@ public class ReversiField extends AbstractField {
             if (this.nextField(dir).isEmpty())
                 continue;
 
-            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite())
+            if (this.nextField(dir).getDisk().isWhite() == disk.isWhite() || nextField(dir).getDisk().isFrozen())
                 continue;
 
             temp.add(this.nextField(dir).getDisk());
@@ -81,6 +88,9 @@ public class ReversiField extends AbstractField {
 
             while(!next.isEmpty())
             {
+                if (next.getDisk().isFrozen())
+                    break;
+
                 if (next.getDisk().isWhite() == disk.isWhite())
                 {
                     succes = true;
@@ -114,6 +124,11 @@ public class ReversiField extends AbstractField {
         return true;
     }
 
+    /**
+     * Vrací List otočených disků.
+     *
+     * @return Otočené disky
+     */
     public ArrayList<Disk> getTurnedDisks()
     {
         return this.turnedDisks;

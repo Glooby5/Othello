@@ -1,6 +1,7 @@
 /.idea
 /out
 /dest-client
+/doc/javadoc
 Othello.iml
 # Windows image file caches
 Thumbs.db

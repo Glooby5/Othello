@@ -28,8 +28,28 @@ public class GameLoader
         LoadPlayer("B");
 
         LoadTurns();
+        LoadFreezing();
 
         return game;
+    }
+
+    private void LoadFreezing() throws Exception
+    {
+        String input = reader.readLine();
+
+        if (input == null || input.isEmpty())
+            return;
+
+        String[] data = input.split(":");
+
+        if (data.length != 3)
+            throw new Exception();
+
+        int timeInterval = Integer.parseInt(data[0]);
+        int freezeInterval = Integer.parseInt(data[0]);
+        int countInterval = Integer.parseInt(data[0]);
+
+        game.setDiskFreezing(timeInterval, freezeInterval, countInterval);
     }
 
     private void LoadTurns() throws Exception
@@ -50,9 +70,7 @@ public class GameLoader
 
     private void LoadPlayer(String color) throws Exception
     {
-        Player player;
         String line = reader.readLine();
-        boolean isHuman = true;
 
         if (line.isEmpty())
             throw new Exception();
@@ -69,17 +87,24 @@ public class GameLoader
             throw new Exception();
 
 
-        if (data[1].equals("RandomAI"))
+        createPLayer(color, data[1]);
+    }
+
+    private void createPLayer(String color, String s)
+    {
+        Player player;
+
+        if (s.equals("RandomAI"))
         {
             player = new RandomAI(color == "W" ? true : false);
         }
-        else if (data[1].equals("CostAI"))
+        else if (s.equals("CostAI"))
         {
             player = new CostAI(color == "W" ? true : false);
         }
         else
         {
-            player = new Player(color == "W" ? true : false, true, data[1]);
+            player = new Player(color == "W" ? true : false, true, s);
         }
 
         game.addPlayer(player);

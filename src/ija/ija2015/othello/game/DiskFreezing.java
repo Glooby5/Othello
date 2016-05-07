@@ -65,6 +65,8 @@ public class DiskFreezing
     {
         ArrayList<Disk> disks = getDisks();
 
+        if (disks.size() <= 6)
+            return;
 
         int toFreeze = randInt(0, freezeCount);
         toFreeze = toFreeze > disks.size() ? disks.size() : toFreeze;

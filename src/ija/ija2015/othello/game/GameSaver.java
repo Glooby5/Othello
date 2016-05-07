@@ -3,6 +3,7 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.Field;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +29,15 @@ public class GameSaver
         writer.newLine();
 
         AddPlayers();
+        AddCommands();
+        AddFreezing();
 
+        writer.flush();
+        writer.close();
+    }
+
+    private void AddCommands() throws IOException
+    {
         for (PutCommand command : game.getCommandManager().getCommands())
         {
             ReversiField field = (ReversiField)command.getField();
@@ -36,8 +45,6 @@ public class GameSaver
         }
 
         writer.newLine();
-        writer.flush();
-        writer.close();
     }
 
     private void OpenToWrite(String filename) throws Exception
@@ -57,6 +64,17 @@ public class GameSaver
         writer.newLine();
 
         writer.write("B:" + game.nextPlayer().getName());
+        writer.newLine();
+    }
+
+    private void AddFreezing() throws IOException
+    {
+        DiskFreezing freezing = game.getDiskFreezing();
+
+        if (freezing == null)
+            return;
+
+        writer.write(freezing.getTimerInterval() + ":" + freezing.getFreezeInterval() + ":" + freezing.getFreezeCount());
         writer.newLine();
     }
 }

@@ -52,9 +52,18 @@ public class Game implements Serializable
 
         commandManager.Undo();
         commandManager.Undo();
+
+        if (diskFreezing != null)
+            diskFreezing.SetFreeze();
     }
 
     //region DiskFreezing
+
+
+    public DiskFreezing getDiskFreezing()
+    {
+        return diskFreezing;
+    }
 
     public void setDiskFreezing(DiskFreezing diskFreezing)
     {

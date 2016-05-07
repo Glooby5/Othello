@@ -159,7 +159,7 @@ public class FrmGame extends JFrame {
         ScoreP1.setFont(new Font(DefaultFont, 0, 24));
         ScoreP1.setForeground(Color.WHITE);
         StatsPanel.add(ScoreP1);
-        ScoreP1.setBounds(60, 6,
+        ScoreP1.setBounds(60, 4,
                 ScoreP1.getPreferredSize().width,
                 ScoreP1.getPreferredSize().height);
 
@@ -179,7 +179,7 @@ public class FrmGame extends JFrame {
         ScoreP2.setFont(new Font(DefaultFont, 0, 24));
         ScoreP2.setForeground(Color.WHITE);
         StatsPanel.add(ScoreP2);
-        ScoreP2.setBounds(BoardSize*FIELDSIZE - 85, 6,
+        ScoreP2.setBounds(BoardSize*FIELDSIZE - 85, 4,
                 ScoreP2.getPreferredSize().width,
                 ScoreP2.getPreferredSize().height);
 

@@ -66,7 +66,7 @@ public class MenuController implements MediaDisposer.Disposable {
         BtnRunGame = Frame.getBtnRunGame();
         BtnLoadGame = Frame.getBtnLoadGame();
 
-        Games = new ArrayList();
+        Games = new ArrayList<>();
     }
 
     private int getPlayerType(String value) {

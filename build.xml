@@ -3,40 +3,40 @@
 
     <property name="lib" value="lib"/>
 	<property name="src.dir" value="src"/>
-	<property name="build.dir" value="dest-client"/>
-	<property name="build.dir.classes" value="dest-client/classes"/>
+	<property name="dest.dir" value="dest-client"/>
+	<property name="build.dir.classes" value="build"/>
     <property name="jar.name" value="othello-client"/>
-    <property name="temp.dir" value="tmp"/>
-
-	<path id="classpath.run">
+	<property name="doc.dir" value="doc"/>
+	
+    <!-- Clean project -->
+	<path id="libs">
 		<pathelement location="${lib}/junit-4.12.jar"/>
 		<pathelement location="${lib}/hamcrest-core-1.3.jar"/>
-        <pathelement location="${lib}/forms_rt.jar"/>
-        <pathelement location="${lib}/javac2.jar"/>
-        <pathelement location="${lib}/annotations.jar"/>
-        <pathelement location="${lib}/annotations-java8.jar"/>
-		<pathelement location="${build.dir}"/>
 	</path>
 
+    <!-- Cleaning project -->
     <target name="clean">
-            <delete dir="${build.dir}"/>
+            <delete dir="${dest.dir}"/>
+            <delete dir="${build.dir.classes}"/>
+		    <delete dir="${doc.dir}"/>
     </target>
-
-    <target name="compile">
+	
+	<!-- Generate javadoc -->
+	<target name="doc" depends="clean">
+	    <mkdir dir="${doc.dir}"/>
+		<javadoc sourcepath="${src.dir}" destdir="${doc.dir}" encoding="UTF-8"/>
+	</target>
+	
+    <!-- Compilation project -->
+    <target name="compile" depends="doc">
         <mkdir dir="${build.dir.classes}"/>
-        <javac srcdir="${src.dir}" destdir="${build.dir.classes}" includeantruntime="false">
+        <javac srcdir="${src.dir}" destdir="${build.dir.classes}" includeantruntime="false" encoding="UTF-8" memorymaximumsize="512">
             <classpath>
-                <pathelement location="${lib}/junit-4.12.jar"/>
-                <pathelement location="${lib}/hamcrest-core-1.3.jar"/>
-                <pathelement location="${lib}/forms_rt.jar"/>
-                <pathelement location="${lib}/javac2.jar"/>
-                <pathelement location="${lib}/annotations.jar"/>
-                <pathelement location="${lib}/annotations-java8.jar"/>
+                <path refid="libs"/>
             </classpath>
         </javac>
-
-        <mkdir dir="${build.dir}"/>
-        <jar destfile="${build.dir}/${jar.name}.jar" basedir="${build.dir.classes}">
+        <mkdir dir="${dest.dir}"/>
+        <jar destfile="${dest.dir}/${jar.name}.jar" basedir="${build.dir.classes}" encoding="UTF-8">
             <fileset dir="${src.dir}">
                 <include name="ija/ija2015/othello/gui/resources/**/*.png" />
             </fileset>
@@ -46,24 +46,9 @@
         </jar>
     </target>
 
+    <!-- Running project -->
 	<target name="run" depends="compile">
-        <mkdir dir="${temp.dir}"/>
-        <java jar="${build.dir}/${jar.name}.jar" fork="true"/>
+        <java jar="${dest.dir}/${jar.name}.jar" fork="true"/>
 	</target>
-    <!--
-    <target name="run" depends="test-compile">
-    <junit printsummary="yes" haltonfailure="no" fork="true">
-        <classpath>
-              <path refid="classpath.test"/>
-          <pathelement location="${test.build.dir}"/>
-        </classpath>
-        <formatter type="brief" usefile="false" />
-            <batchtest>
-                    <fileset dir="${test.src.dir}" includes="**/*Homework2Test.java" />
-            </batchtest>
-    </junit>
-    </target>
-    -->
-       
-       
+	
 </project>

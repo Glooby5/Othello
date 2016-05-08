@@ -49,7 +49,7 @@ public class PutCommand
 
     /**
      * Vrací List otočených kamenů
-     * @return
+     * @return Otočené disky
      */
     public ArrayList<Disk> getTurnedDisks()
     {

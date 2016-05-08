@@ -31,7 +31,7 @@ public class GameSaver
      * Uloží rozehranou hru do zadaného souboru.
      *
      * @param filename Název souboru
-     * @throws Exception
+     * @throws Exception ex
      */
     public void Save(String filename) throws Exception
     {
@@ -51,7 +51,7 @@ public class GameSaver
     /**
      * Přidá provedené tahy hráčů.
      *
-     * @throws IOException
+     * @throws IOException ex
      */
     private void AddCommands() throws IOException
     {
@@ -68,7 +68,7 @@ public class GameSaver
      * Otevře soubor pro zápis.
      *
      * @param filename Název souboru
-     * @throws Exception
+     * @throws Exception ex
      */
     private void OpenToWrite(String filename) throws Exception
     {
@@ -79,7 +79,7 @@ public class GameSaver
     /**
      * Přidá hráče
      *
-     * @throws Exception
+     * @throws Exception ex
      */
     private void AddPlayers() throws Exception
     {
@@ -98,7 +98,7 @@ public class GameSaver
     /**
      * Přidá nastavení zamrzání kamenů.
      *
-     * @throws IOException
+     * @throws IOException ex
      */
     private void AddFreezing() throws IOException
     {

@@ -22,7 +22,7 @@ public class GameLoader
      *
      * @param filename Cesta k souboru s uloženou hrou
      * @return Načtená hra typu Game
-     * @throws Exception
+     * @throws Exception ex
      */
     public Game Load(String filename) throws Exception
     {
@@ -44,7 +44,7 @@ public class GameLoader
     /**
      * Načte nastavení zamrzání.
      *
-     * @throws Exception
+     * @throws Exception ex
      */
     private void LoadFreezing() throws Exception
     {
@@ -68,7 +68,7 @@ public class GameLoader
     /**
      * Načte provedené tahy hráčů.
      *
-     * @throws Exception
+     * @throws Exception ex
      */
     private void LoadTurns() throws Exception
     {
@@ -90,7 +90,7 @@ public class GameLoader
      * Načte hráče ve hře.
      *
      * @param color Barva W/B který hráč se má načíst.
-     * @throws Exception
+     * @throws Exception ex
      */
     private void LoadPlayer(String color) throws Exception
     {
@@ -117,8 +117,8 @@ public class GameLoader
     /**
      * Vytvoří instanci hráče.
      *
-     * @param color
-     * @param s
+     * @param color barva
+     * @param s vstup
      */
     private void createPLayer(String color, String s)
     {
@@ -144,7 +144,7 @@ public class GameLoader
      * Otevře soubor pro čtení.
      *
      * @param filename Jméno souboru
-     * @throws Exception
+     * @throws Exception ex
      */
     private void OpenToRead(String filename) throws Exception
     {

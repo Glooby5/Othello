@@ -98,7 +98,7 @@ public class Player
     /**
      * Inicializace hráče v rámci hrací desky.
      *
-     * @param board
+     * @param board Deska
      */
     public void init(Board board)
     {
@@ -147,8 +147,8 @@ public class Player
     /**
      * Test, zda je možné vložit nový kámen hráče na dané pole.
      *
-     * @param field
-     * @return
+     * @param field Pole
+     * @return Úspěch
      */
     public boolean canPutDisk(Field field)
     {
@@ -158,8 +158,8 @@ public class Player
     /**
      * Vloží nový kámen hráče na dané pole, pokud to pravidla umožňují.
      *
-     * @param field
-     * @return
+     * @param field Pole
+     * @return Úspěch
      */
     public boolean putDisk(Field field)
     {

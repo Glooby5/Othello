@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 
 /**
  * Třída pro načítání uložených her.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class GameLoader
 {

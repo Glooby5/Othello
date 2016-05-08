@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Hraniční pole.
  *
  * @author XKADER13, XZEMAN53
  */

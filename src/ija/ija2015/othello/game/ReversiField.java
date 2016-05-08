@@ -13,6 +13,8 @@ import java.util.Queue;
 
 /**
  * Reprezentuje pole hry Reversi
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class ReversiField extends AbstractField {
 

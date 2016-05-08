@@ -9,6 +9,8 @@ import java.util.Queue;
 
 /**
  * Algortimus, který vybere tah, který otočí nejvíce soupeřových kamenů.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class CostAI extends Player implements AI
 {

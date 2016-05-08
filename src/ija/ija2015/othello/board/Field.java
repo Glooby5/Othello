@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Interface pro hrací pole.
  *
  * @author XKADER13, XZEMAN53
  */

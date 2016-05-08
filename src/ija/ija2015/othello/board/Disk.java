@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Kámen pro vložení na hrací pole.
  *
  * @author XKADER13, XZEMAN53
  */

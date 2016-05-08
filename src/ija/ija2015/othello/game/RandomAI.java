@@ -8,6 +8,8 @@ import java.util.Random;
 
 /**
  * Algoritmus, který vybere náhodně z možných tahů hráče.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class RandomAI extends Player implements AI
 {

@@ -12,6 +12,8 @@ import java.util.TimerTask;
 
 /**
  * Zapouzdřuje funkčnost zamrzání kamenů.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class DiskFreezing
 {

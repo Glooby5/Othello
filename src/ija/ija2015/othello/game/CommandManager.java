@@ -4,6 +4,8 @@ import java.util.Stack;
 
 /**
  * Zajišťuje režii pro tahy hráčů. Má kontrolu nad tím jaké tahy byly provedeny.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class CommandManager
 {

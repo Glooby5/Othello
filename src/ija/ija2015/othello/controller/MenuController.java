@@ -35,14 +35,26 @@ public class MenuController implements MediaDisposer.Disposable {
         initListeners();
     }
 
+    /**
+     * Vrací rozměr hrací desky
+     * @return rozměr hrací desky
+     */
     public int getBoardSize() {
         return getBoardType(SBoardSize.getValue().toString());
     }
 
+    /**
+     * Vrací typ hráče 1
+     * @return typ hráče 1
+     */
     public int getPlayer1Type() {
         return getPlayerType(SPlayer1Type.getValue().toString());
     }
 
+    /**
+     * Vrací typ hráče 2
+     * @return typ hráče 2
+     */
     public int getPlayer2Type() {
         return getPlayerType(SPlayer2Type.getValue().toString());
     }
@@ -52,6 +64,9 @@ public class MenuController implements MediaDisposer.Disposable {
         Frame.setVisible(true);
     }
 
+    /**
+     * Získá komponenty z view
+     */
     private void getComponents() {
         Frame = new FrmMenu();
 
@@ -69,6 +84,11 @@ public class MenuController implements MediaDisposer.Disposable {
         Games = new ArrayList<>();
     }
 
+    /**
+     * Vrací typ hráče z řetězce value
+     * @param value - řetězec
+     * @return typ hráče
+     */
     private int getPlayerType(String value) {
         switch (value) {
             case "Člověk":
@@ -82,6 +102,11 @@ public class MenuController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Vrací velikost hrací desky na základě řetězce value
+     * @param value - řetězec
+     * @return typ hráče 1
+     */
     private int getBoardType(String value) {
         switch (value) {
             case "6x6":
@@ -97,6 +122,9 @@ public class MenuController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Inicializace tlačítek a jejich činností
+     */
     private void initListeners()
     {
         if(BtnRunGame instanceof JButton) {

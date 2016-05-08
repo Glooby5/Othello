@@ -61,10 +61,16 @@ public class GameController implements MediaDisposer.Disposable {
         Frame.setVisible(true);
     }
 
+    /**
+     * Odstartuje hru
+     */
     public void runGame() {
         drawBoard();
     }
 
+    /**
+     * Získání komponentů z view
+     */
     private void getComponents() {
         Frame = new FrmGame(BoardSize);
         BoardPanel = Frame.getBoardPanel();
@@ -75,6 +81,12 @@ public class GameController implements MediaDisposer.Disposable {
         AISleepTimer = new Timer();
     }
 
+    /**
+     * Nastavení zamrzání disků
+     * @param fc - počet disků
+     * @param fi - interval mezi zamrzáním
+     * @param fb - interval délky zamrznutí
+     */
     private void setFreeze(int fc, int fi, int fb) {
         if(game != null) {
             game.setDiskFreezing(fi, fb, fc);
@@ -84,6 +96,11 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Nastavení eventu pro klikání na políčko
+     * @param Player1 - typ hráče (AI1, AI2, člověk)
+     * @param Player2 - typ hráče (AI1, AI2, člověk)
+     */
     private void prepareGame(int Player1, int Player2) {
         if(game == null) {
             ReversiRules rules = new ReversiRules(BoardSize);
@@ -94,6 +111,11 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Přidání hráče do hry na základě konstant typu hráče
+     * @param playerType - typ hráče (AI1, AI2, člověk)
+     * @param isWhite - nastavení barvy hráče
+     */
     private void addPlayer(int playerType, boolean isWhite) {
         switch (playerType) {
             case PLAYER_USER:
@@ -108,6 +130,9 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Inicializace tlačítek s přidělením jejich akci
+     */
     private void initListeners()
     {
         if(BtnClose instanceof JButton){
@@ -146,6 +171,11 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Nastavení eventu pro klikání na políčko
+     * @param row -řádek
+     * @param col - sloupec
+     */
     private void setFieldEvent(final int row, final int col) {
         Fields[row][col].addMouseListener(new MouseAdapter() {
             @Override
@@ -174,6 +204,9 @@ public class GameController implements MediaDisposer.Disposable {
         });
     }
 
+    /**
+     * Tah AI s umělým opožděním
+     */
     private void AiTurn() {
         if (game.currentPlayer().PossibleTurns().size() == 0) {
             game.nextPlayer();
@@ -195,6 +228,9 @@ public class GameController implements MediaDisposer.Disposable {
         }
     }
 
+    /**
+     * Zajištění vykreslení aktuálního hry
+     */
     private void drawBoard() {
         Board board = game.getBoard();
         BoardPanel.removeAll();

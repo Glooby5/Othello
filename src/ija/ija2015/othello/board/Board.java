@@ -18,7 +18,7 @@ public class Board {
      * Inicializuje desku. Vytvoří a uloží si všechna pole. Pro všechna pole nastaví jejich okolí.
      * Na neaktivních polích jsou umístěny instance třídy BorderField.
      * Objekty aktivních polí jsou získány metodou Rules.createField(int, int).
-     * @param rules
+     * @param rules Pravidla
      */
     public Board(Rules rules)
     {
@@ -31,7 +31,7 @@ public class Board {
 
     /**
      * Přidá všechny hrací pole
-     * @param size
+     * @param size velikost
      */
     private void addFields(int size)
     {
@@ -82,7 +82,7 @@ public class Board {
     }
     /**
      * Vrací objekt pravidel.
-     * @return
+     * @return Rules
      */
     public Rules getRules()
     {
@@ -91,7 +91,7 @@ public class Board {
 
     /**
      * Vrací velikost (rozměr) desky.
-     * @return
+     * @return size
      */
     public int getSize()
     {

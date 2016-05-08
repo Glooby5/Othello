@@ -27,7 +27,7 @@ public class Game implements Serializable
 
     /**
      * Inicializuje hru.
-     * @param board
+     * @param board Deska
      */
     public Game(Board board)
     {
@@ -94,7 +94,7 @@ public class Game implements Serializable
     /**
      * Nastavení listeneru pro zachycení zamrznutí
      *
-     * @param listener
+     * @param listener Listener
      */
     public void setFreezeListener(ActionListener listener)
     {

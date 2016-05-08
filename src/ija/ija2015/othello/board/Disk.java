@@ -23,7 +23,7 @@ public class Disk {
 
     /**
      * Test, zda je kámen bílý.
-     * @return
+     * @return isWhite?
      */
     public boolean isWhite()
     {

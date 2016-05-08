@@ -14,7 +14,9 @@ import java.util.Stack;
 import java.util.function.Function;
 
 /**
- * Reprezentuje hráč v rámci hry.
+ * Reprezentuje hráče v rámci hry.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class Player
 {

@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Hrací deska.
  *
  * @author XKADER13, XZEMAN53
  */

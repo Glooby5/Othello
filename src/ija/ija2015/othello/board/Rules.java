@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Interface pro reprezentaci pravidel hry.
  *
  * @author XKADER13, XZEMAN53
  */

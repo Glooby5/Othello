@@ -9,6 +9,8 @@ import ija.ija2015.othello.board.*;
 
 /**
  * Reprezentuje herní pravidle hry Reversi
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class ReversiRules implements Rules {
 

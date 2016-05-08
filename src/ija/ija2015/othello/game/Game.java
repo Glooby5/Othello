@@ -12,6 +12,8 @@ import java.io.Serializable;
 
 /**
  * Repezentuje celou hru.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class Game implements Serializable
 {

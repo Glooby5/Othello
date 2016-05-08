@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 
 /**
+ * Základní implementace itnefacu Field
  *
  * @author XKADER13, XZEMAN53
  */

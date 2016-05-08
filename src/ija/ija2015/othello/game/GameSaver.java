@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 
 /**
  * Třída pro uložení rozehrané hry.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class GameSaver
 {

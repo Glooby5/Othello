@@ -4,6 +4,8 @@ import ija.ija2015.othello.board.Field;
 
 /**
  * Interface pro reprezentaci nějakého herního algoritmu.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public interface AI
 {

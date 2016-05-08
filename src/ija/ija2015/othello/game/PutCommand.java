@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Reprezentuje tah hráče.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class PutCommand
 {

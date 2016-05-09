@@ -3,8 +3,6 @@ package ija.ija2015.othello.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
@@ -168,6 +166,7 @@ public class FrmMenu extends JFrame {
         SBoardSize = new JSpinner();
         SBoardSize.setPreferredSize(new Dimension(100, 25));
         SBoardSize.setModel(new javax.swing.SpinnerListModel(BoardTypes));
+        SBoardSize.setValue(BoardTypes[1]);
         SBoardSize.setBounds(WIDTH - SBoardSize.getPreferredSize().width - 20, HEIGHT - 234,
                 SBoardSize.getPreferredSize().width,
                 SBoardSize.getPreferredSize().height);

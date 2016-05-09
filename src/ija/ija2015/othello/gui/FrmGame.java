@@ -100,6 +100,12 @@ public class FrmGame extends JFrame {
         return Fields;
     }
 
+    /**
+     * Vykreslení obráku na políčko na desce
+     * @param row řádek
+     * @param col sloupec
+     * @param image obrázek k vykreslení na políčko
+     */
     public void drawDisk(int row, int col, BufferedImage image) {
         ImagePanel field = Fields[row][col];
         Insets insets = BoardPanel.getInsets();
@@ -110,12 +116,21 @@ public class FrmGame extends JFrame {
         BoardPanel.updateUI();
     }
 
+    /**
+     * Vypsání aktuálního skóre
+     * @param p1 - bílý hráč
+     * @param p2 - černý hráč
+     */
     public void setScore(int p1, int p2) {
         ScoreP1.setText("" + p1);
         ScoreP2.setText("" + p2);
         StatsPanel.updateUI();
     }
 
+    /**
+     * Změna aktuálního hráče
+     * @param disk - obrázek k vykreslení
+     */
     public void changePlayer(BufferedImage disk) {
         ActPlayerPanel.removeAll();
         ActualPlayer = new ImagePanel(disk);

@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Interface pro hrací pole.
  *
  * @author XKADER13, XZEMAN53
  */
@@ -24,19 +25,22 @@ public interface Field {
     
     /**
      * Přidá sousední pole field v daném směru dirs.
+     *
+     * @param dirs Směr
+     * @param field Pole
      */
     public void addNextField(Field.Direction dirs, Field field);
 
     /**
      * Test, zda je možné vložit na pole kámen.
-     * @param disk
-     * @return
+     * @param disk Disk
+     * @return Úspěch
      */
     public boolean canPutDisk(Disk disk);
 
     /**
      * Vrací kámen, který je vložen na pole.
-     * @return
+     * @return Disk
      */
     public Disk getDisk();
     
@@ -44,15 +48,15 @@ public interface Field {
 
     /**
      * Vrátí sousední pole v daném směru dirs.
-     * @param dirs
-     * @return
+     * @param dirs směr
+     * @return Pole
      */
     public Field nextField(Field.Direction dirs);
 
     /**
      * Vloží na pole kámen.
-     * @param disk
-     * @return
+     * @param disk Disk
+     * @return Úspěch
      */
     public boolean putDisk(Disk disk);
 

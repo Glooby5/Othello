@@ -6,7 +6,9 @@ import ija.ija2015.othello.board.Field;
 import java.util.ArrayList;
 
 /**
- * Created by kader on 05.05.2016.
+ * Reprezentuje tah hráče.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class PutCommand
 {
@@ -14,12 +16,23 @@ public class PutCommand
     private Field field;
     private ArrayList<Disk> turnedDisks;
 
+    /**
+     * Konsturktor
+     *
+     * @param player Hráč
+     * @param field Pole
+     */
     public PutCommand(Player player, Field field)
     {
         this.player = player;
         this.field = field;
     }
 
+    /**
+     * Vykoná příkaz.
+     *
+     * @return True pokud se povedlo provést akci, jinak False
+     */
     public boolean Execute()
     {
         boolean success = player.putDisk(field);
@@ -34,6 +47,10 @@ public class PutCommand
         return field;
     }
 
+    /**
+     * Vrací List otočených kamenů
+     * @return Otočené disky
+     */
     public ArrayList<Disk> getTurnedDisks()
     {
         return turnedDisks;

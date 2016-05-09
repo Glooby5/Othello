@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 
 /**
+ * Základní implementace itnefacu Field
  *
  * @author XKADER13, XZEMAN53
  */
@@ -29,8 +30,8 @@ public abstract class AbstractField implements Field
 
     /**
      * Přidá sousední pole field v daném směru dirs.
-     * @param dirs
-     * @param field
+     * @param dirs Směr
+     * @param field Pole
      */
     @Override
     public void	addNextField(Field.Direction dirs, Field field)
@@ -46,7 +47,7 @@ public abstract class AbstractField implements Field
 
     /**
      * Vrací kámen, který je vložen na pole.
-     * @return
+     * @return Disk
      */
     @Override
     public Disk	getDisk()
@@ -64,8 +65,8 @@ public abstract class AbstractField implements Field
 
     /**
      * Vrátí sousední pole v daném směru dirs.
-     * @param dirs
-     * @return
+     * @param dirs Směr
+     * @return Field
      */
     @Override
     public Field nextField(Field.Direction dirs)
@@ -76,8 +77,8 @@ public abstract class AbstractField implements Field
 
     /**
      * Vloží na pole kámen.
-     * @param disk
-     * @return
+     * @param disk Disk
+     * @return Úspěch
      */
     @Override
     public boolean putDisk(Disk disk)

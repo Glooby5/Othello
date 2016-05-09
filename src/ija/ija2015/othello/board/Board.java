@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Hrací deska.
  *
  * @author XKADER13, XZEMAN53
  */
@@ -17,7 +18,7 @@ public class Board {
      * Inicializuje desku. Vytvoří a uloží si všechna pole. Pro všechna pole nastaví jejich okolí.
      * Na neaktivních polích jsou umístěny instance třídy BorderField.
      * Objekty aktivních polí jsou získány metodou Rules.createField(int, int).
-     * @param rules
+     * @param rules Pravidla
      */
     public Board(Rules rules)
     {
@@ -28,6 +29,10 @@ public class Board {
         setDirections(rules.getSize());
     }
 
+    /**
+     * Přidá všechny hrací pole
+     * @param size velikost
+     */
     private void addFields(int size)
     {
         for (int i = 1; i < size; i++)
@@ -48,6 +53,11 @@ public class Board {
         }
     }
 
+    /**
+     * Nastaví hraícm polí jejich okolí
+     *
+     * @param size velikost
+     */
     private void setDirections(int size)
     {
         for (int i = 1; i <= size; i++) // řádky
@@ -72,7 +82,7 @@ public class Board {
     }
     /**
      * Vrací objekt pravidel.
-     * @return
+     * @return Rules
      */
     public Rules getRules()
     {
@@ -81,7 +91,7 @@ public class Board {
 
     /**
      * Vrací velikost (rozměr) desky.
-     * @return
+     * @return size
      */
     public int getSize()
     {

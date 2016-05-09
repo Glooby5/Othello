@@ -6,6 +6,7 @@
 package ija.ija2015.othello.board;
 
 /**
+ * Kámen pro vložení na hrací pole.
  *
  * @author XKADER13, XZEMAN53
  */
@@ -22,7 +23,7 @@ public class Disk {
 
     /**
      * Test, zda je kámen bílý.
-     * @return
+     * @return isWhite?
      */
     public boolean isWhite()
     {

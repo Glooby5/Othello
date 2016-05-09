@@ -14,6 +14,7 @@ import java.util.Stack;
 import java.util.function.Function;
 
 /**
+ * Reprezentuje hráče v rámci hry.
  *
  * @author XKADER13, XZEMAN53
  */
@@ -26,8 +27,9 @@ public class Player
     protected Board board;
 
     /**
+     * Konstruktor s nastavením jestli je to člověk a jménem.
      *
-     * @param isWhite Bílá hráč?
+     * @param isWhite Bílý hráč?
      * @param isHuman Člověk?
      * @param name Jméno
      */
@@ -39,6 +41,11 @@ public class Player
         this.disks = new ArrayDeque<>();
     }
 
+    /**
+     * Jednoduchý konstruktor
+     *
+     * @param isWhite Bílý hráč?
+     */
     public Player(boolean isWhite)
     {
         this(isWhite, true, "Unknown");
@@ -65,6 +72,11 @@ public class Player
         return this.disks.isEmpty();
     }
 
+    /**
+     * Spočítá skóre daného hráče.
+     *
+     * @return Skóre
+     */
     public int getScore()
     {
         int score = 0;
@@ -86,7 +98,7 @@ public class Player
     /**
      * Inicializace hráče v rámci hrací desky.
      *
-     * @param board
+     * @param board Deska
      */
     public void init(Board board)
     {
@@ -109,6 +121,11 @@ public class Player
         this.board = board;
     }
 
+    /**
+     * Zjistí možné tahy hráče.
+     *
+     * @return ArrayList [row][col]
+     */
     public ArrayList<int[]> PossibleTurns()
     {
         ArrayList<int[]> turns = new ArrayList<int[]>();
@@ -130,8 +147,8 @@ public class Player
     /**
      * Test, zda je možné vložit nový kámen hráče na dané pole.
      *
-     * @param field
-     * @return
+     * @param field Pole
+     * @return Úspěch
      */
     public boolean canPutDisk(Field field)
     {
@@ -141,8 +158,8 @@ public class Player
     /**
      * Vloží nový kámen hráče na dané pole, pokud to pravidla umožňují.
      *
-     * @param field
-     * @return
+     * @param field Pole
+     * @return Úspěch
      */
     public boolean putDisk(Field field)
     {

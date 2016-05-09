@@ -8,6 +8,7 @@ package ija.ija2015.othello.game;
 import ija.ija2015.othello.board.*;
 
 /**
+ * Reprezentuje herní pravidle hry Reversi
  *
  * @author XKADER13, XZEMAN53
  */
@@ -18,7 +19,7 @@ public class ReversiRules implements Rules {
 
     /**
      * Inicializace pravidel.
-     * @param size
+     * @param size velikost
      */
     public ReversiRules(int size)
     {
@@ -29,9 +30,9 @@ public class ReversiRules implements Rules {
 
     /**
      * Vytvoří odpovídající pole na zadaných indexech.
-     * @param row
-     * @param col
-     * @return
+     * @param row Radek
+     * @param col Sloupec
+     * @return Pole
      */
     public Field createField(int row, int col)
     {
@@ -40,7 +41,7 @@ public class ReversiRules implements Rules {
 
     /**
      * Vrací velikost desky.
-     * @return
+     * @return Velikost
      */
     public int getSize()
     {
@@ -49,7 +50,7 @@ public class ReversiRules implements Rules {
 
     /**
      * Vrací počet kamenů jednotlivých hráčů.
-     * @return
+     * @return Počet disků
      */
     public int numberDisks()
     {

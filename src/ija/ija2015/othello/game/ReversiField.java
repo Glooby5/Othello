@@ -12,29 +12,18 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 /**
+ * Reprezentuje pole hry Reversi
  *
  * @author XKADER13, XZEMAN53
  */
 public class ReversiField extends AbstractField {
 
     private ArrayList<Disk> turnedDisks;
-    private int x = 0;
-    private int y = 0;
 
     public ReversiField(int row, int col)
     {
         super(row, col);
         turnedDisks = new ArrayList<Disk>();
-    }
-
-    public int getX()
-    {
-        return x;
-    }
-
-    public int getY()
-    {
-        return y;
     }
 
     @Override
@@ -70,6 +59,12 @@ public class ReversiField extends AbstractField {
         return false;
     }
 
+    /**
+     * Provede otočení spoupeřových disků po vložení kamene.
+     *
+     * @param disk Disk který se vkládá
+     * @return True pokud se to povedlo
+     */
     public boolean turnDisks(Disk disk)
     {
         Queue<Disk> disks = new ArrayDeque<>();
@@ -131,6 +126,11 @@ public class ReversiField extends AbstractField {
         return true;
     }
 
+    /**
+     * Vrací List otočených disků.
+     *
+     * @return Otočené disky
+     */
     public ArrayList<Disk> getTurnedDisks()
     {
         return this.turnedDisks;

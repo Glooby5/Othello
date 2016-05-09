@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 
 /**
+ * Repezentuje celou hru.
  *
  * @author XKADER13, XZEMAN53
  */
@@ -26,7 +27,7 @@ public class Game implements Serializable
 
     /**
      * Inicializuje hru.
-     * @param board
+     * @param board Deska
      */
     public Game(Board board)
     {
@@ -34,6 +35,11 @@ public class Game implements Serializable
         this.commandManager = new CommandManager();
     }
 
+    /**
+     * Umístí kémen na zadané pole.
+     *
+     * @param field Pole
+     */
     public void Place(Field field)
     {
         if (!commandManager.Execute(new PutCommand(currentPlayer, field)))
@@ -45,6 +51,9 @@ public class Game implements Serializable
             diskFreezing.SetFreeze();
     }
 
+    /**
+     * Vrátí hráčův tah.
+     */
     public void Undo()
     {
         if (diskFreezing != null)
@@ -85,7 +94,7 @@ public class Game implements Serializable
     /**
      * Nastavení listeneru pro zachycení zamrznutí
      *
-     * @param listener
+     * @param listener Listener
      */
     public void setFreezeListener(ActionListener listener)
     {
@@ -226,6 +235,11 @@ public class Game implements Serializable
         return this.board;
     }
 
+    /**
+     * Vrací manažer zahraných tahů.
+     *
+     * @return CommandManager
+     */
     public CommandManager getCommandManager()
     {
         return commandManager;

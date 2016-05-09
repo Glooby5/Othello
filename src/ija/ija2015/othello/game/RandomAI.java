@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by kader on 04.05.2016.
+ * Algoritmus, který vybere náhodně z možných tahů hráče.
+ *
+ * @author XKADER13, XZEMAN53
  */
 public class RandomAI extends Player implements AI
 {
@@ -16,6 +18,11 @@ public class RandomAI extends Player implements AI
         super(isWhite, false, "RandomAI");
     }
 
+    /**
+     * Určí na jaké pole, chce algoritmus zahrát.
+     *
+     * @return Pole kam chce hrát.
+     */
     @Override
     public Field Turn()
     {
@@ -31,6 +38,5 @@ public class RandomAI extends Player implements AI
         System.out.println("AI: " + possible.get(randomNum)[0] + " : " + possible.get(randomNum)[1]);
 
         return board.getField(possible.get(randomNum)[0], possible.get(randomNum)[1]);
-        //return putDisk(board.getField(possible.get(randomNum)[0], possible.get(randomNum)[1]));
     }
 }
